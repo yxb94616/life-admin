@@ -23,7 +23,7 @@ module.exports = {
 			jsx: true,
 		},
 	},
-	plugins: ["react", "@typescript-eslint", "react-hooks", "prettier"],
+	plugins: ["prettier"],
 	/* 继承某些已有的规则 */
 	extends: [
 		"eslint:recommended",
@@ -31,8 +31,6 @@ module.exports = {
 		"plugin:@typescript-eslint/recommended",
 		"plugin:react/jsx-runtime",
 		"plugin:react-hooks/recommended",
-		"prettier",
-		"plugin:prettier/recommended",
 	],
 	/*
 	 * "off" 或 0    ==>  关闭规则

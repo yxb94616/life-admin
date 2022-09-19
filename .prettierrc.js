@@ -34,4 +34,22 @@ module.exports = {
 	// 这两个选项可用于格式化以给定字符偏移量（分别包括和不包括）开始和结束的代码
 	rangeStart: 0,
 	rangeEnd: Infinity,
+	// 以下为 @trivago/prettier-plugin-sort-imports 配置，若未使用可删去
+	// importOrder 中的文件顺序规范，可依据项目实际情况自行更改
+	plugins: [require.resolve("@trivago/prettier-plugin-sort-imports")],
+	importOrder: [
+		"^vite",
+		"^react",
+		"^antd",
+		"<THIRD_PARTY_MODULES>",
+		"components/",
+		"pages/",
+		"hooks/",
+		"utils/",
+		"index.css",
+		"^[./]",
+	],
+	importOrderSortSpecifiers: true,
+	importOrderGroupNamespaceSpecifiers: true,
+	importOrderCaseInsensitive: true,
 };

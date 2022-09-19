@@ -1,10 +1,10 @@
 import { ConfigEnv, defineConfig, loadEnv, UserConfig } from "vite";
+import viteCompression from "vite-plugin-compression";
+import eslintPlugin from "vite-plugin-eslint";
+import { createHtmlPlugin } from "vite-plugin-html";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import { visualizer } from "rollup-plugin-visualizer";
-import { createHtmlPlugin } from "vite-plugin-html";
-import viteCompression from "vite-plugin-compression";
-import eslintPlugin from "vite-plugin-eslint";
 import { wrapperEnv } from "./src/utils/getEnv";
 
 // https://vitejs.dev/config/
@@ -24,7 +24,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 			preprocessorOptions: {
 				less: {
 					// modifyVars: {
-					// 	"primary-color": "#1DA57A",
+					// 	"primary-color": "#3369e7",
 					// },
 					javascriptEnabled: true,
 					additionalData: `@import "@/styles/var.less";`,
@@ -72,6 +72,19 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 		],
 		esbuild: {
 			pure: viteEnv.VITE_DROP_CONSOLE ? ["console.log", "debugger"] : [],
+		},
+		// build configure
+		build: {
+			outDir: "dist",
+			minify: "esbuild",
+			rollupOptions: {
+				output: {
+					// Static resource classification and packaging
+					chunkFileNames: "assets/js/[name]-[hash].js",
+					entryFileNames: "assets/js/[name]-[hash].js",
+					assetFileNames: "assets/[ext]/[name]-[hash].[ext]",
+				},
+			},
 		},
 	};
 });
