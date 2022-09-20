@@ -1,28 +1,31 @@
-import { useState } from "react";
-import "./App.css";
-import reactLogo from "./assets/react.svg";
+import { proxy, ref, subscribe, useSnapshot } from "valtio";
+import { devtools, subscribeKey, watch } from "valtio/utils";
+
+const state = proxy({ count: 0, text: "hello", obj: { foo: "bar" }, dom: ref(document.body) });
+devtools(state, { name: "state name", enabled: true });
+// subscribe(state, () => console.log("state has changed to", state));
+// subscribe(state.obj, () => console.log("state has changed to", state));
+// state.obj.foo = "baz";
+
+subscribeKey(state, "count", (v) => console.log("state.count has changed to", v));
+watch((get) => {
+	console.log("state has changed to", get(state)); // auto-subscribe on use
+});
 
 function App() {
-	const [count, setCount] = useState(0);
+	const snap = useSnapshot(state);
+	const handleClick = () => {
+		console.log(state.count); // This is not recommended as it can be stale.
+	};
 
 	return (
-		<div className="App bg-primary">
-			<div>
-				<a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-					<img src="/vite.svg" className="logo" alt="Vite logo" />
-				</a>
-				<a href="https://reactjs.org" target="_blank" rel="noreferrer">
-					<img src={reactLogo} className="logo react" alt="React logo" />
-				</a>
-			</div>
-			<h1>Vite + React</h1>
-			<div className="card">
-				<button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-				<p>
-					Edit <code>src/App.tsx</code> and save to test HMR
-				</p>
-			</div>
-			<p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+		<div className="space-x-4">
+			<button className="p-4 bg-primary rounded-2xl" onClick={() => ++state.count}>
+				count is {snap.count}
+			</button>
+			<button className="p-4 bg-primary rounded-2xl" onClick={handleClick}>
+				count is {snap.count}
+			</button>
 		</div>
 	);
 }
