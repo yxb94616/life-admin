@@ -4,7 +4,11 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				primary: "#3369e7",
+				primary: "var(--primary-color)",
+			},
+			height: {
+				header: "var(--header-height)",
+				"omit-header": "calc(100vh - var(--header-height))",
 			},
 		},
 	},

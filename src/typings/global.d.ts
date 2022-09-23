@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 // * Vite
 declare type Recordable<T = any> = Record<string, T>;
 
@@ -16,4 +18,14 @@ declare interface ViteEnv {
 	readonly VITE_DROP_CONSOLE: boolean;
 	/** api 接口地址 */
 	readonly VITE_API_URL: string;
+}
+
+// * Menu
+declare interface MenuOptions {
+	path: string;
+	title: string;
+	icon?: ReactNode;
+	isLink?: string;
+	close?: boolean;
+	children?: MenuOptions[];
 }

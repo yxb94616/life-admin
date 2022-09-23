@@ -2,6 +2,7 @@ import { ConfigEnv, defineConfig, loadEnv, UserConfig } from "vite";
 import viteCompression from "vite-plugin-compression";
 import eslintPlugin from "vite-plugin-eslint";
 import { createHtmlPlugin } from "vite-plugin-html";
+import vitePluginImp from "vite-plugin-imp";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import { visualizer } from "rollup-plugin-visualizer";
@@ -23,11 +24,10 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 		css: {
 			preprocessorOptions: {
 				less: {
-					// modifyVars: {
-					// 	"primary-color": "#3369e7",
-					// },
 					javascriptEnabled: true,
-					additionalData: `@import "@/styles/var.less";`,
+					modifyVars: {
+						"primary-color": "#3369e7",
+					},
 				},
 			},
 		},
@@ -49,6 +49,15 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 		},
 		plugins: [
 			react(),
+			vitePluginImp({
+				optimize: true,
+				libList: [
+					{
+						libName: "antd",
+						style: (name) => `antd/es/${name}/style`,
+					},
+				],
+			}),
 			createHtmlPlugin({
 				inject: {
 					data: {

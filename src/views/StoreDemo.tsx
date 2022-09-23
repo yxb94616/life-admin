@@ -1,7 +1,8 @@
+import { Button } from "antd";
 import { useSnapshot } from "valtio";
-import { systemStore } from "./store/system";
+import { systemStore } from "~@/store/system";
 
-function App() {
+function StoreDemo() {
 	const snap = useSnapshot(systemStore);
 	const handleClick = () => {
 		console.log(systemStore.count); // This is not recommended as it can be stale.
@@ -15,8 +16,9 @@ function App() {
 			<button className="p-4 bg-primary rounded-2xl" onClick={handleClick}>
 				count is {snap.count}
 			</button>
+			<Button type="primary">button</Button>
 		</div>
 	);
 }
 
-export default App;
+export default StoreDemo;

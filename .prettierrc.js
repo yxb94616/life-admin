@@ -40,7 +40,10 @@ module.exports = {
 	importOrder: [
 		"^vite",
 		"^react",
+		"styles/common.css",
 		"styles/index.css",
+		"less",
+		"css",
 		"^antd",
 		"<THIRD_PARTY_MODULES>",
 		"components/",

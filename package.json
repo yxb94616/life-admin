@@ -15,6 +15,7 @@
 		"commit": "git pull && git add . && git-cz && git push"
 	},
 	"dependencies": {
+		"@ant-design/icons": "^4.7.0",
 		"antd": "^4.23.2",
 		"axios": "^0.27.2",
 		"react": "^18.2.0",
@@ -53,7 +54,8 @@
 		"vite": "^3.1.0",
 		"vite-plugin-compression": "^0.5.1",
 		"vite-plugin-eslint": "^1.8.1",
-		"vite-plugin-html": "^3.2.0"
+		"vite-plugin-html": "^3.2.0",
+		"vite-plugin-imp": "^2.3.0"
 	},
 	"config": {
 		"commitizen": {
