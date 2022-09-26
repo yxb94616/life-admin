@@ -1,4 +1,3 @@
-import "./index.less";
 import { Spin } from "antd";
 
 const Loading = ({ tip = "Loading..." }: { tip?: string }) => {

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import "./index.less";
 import { Tabs } from "antd";
 import { HomeFilled } from "@ant-design/icons";
 
@@ -68,6 +67,18 @@ const LayoutTabs = () => {
 			title: "嵌套环形图",
 			path: "/nestedChart",
 		},
+		{
+			title: "折线图",
+			path: "/超级表格1",
+		},
+		{
+			title: "雷达图",
+			path: "/radarChart1",
+		},
+		{
+			title: "嵌套环形图",
+			path: "/nestedChart1",
+		},
 	]);
 
 	useEffect(() => {
@@ -87,7 +98,7 @@ const LayoutTabs = () => {
 			items={tabsList.map((item) => {
 				return {
 					label: (
-						<span key={item.path}>
+						<span key={item.path} className="flex items-center">
 							{item.path == "/home" ? <HomeFilled /> : ""}
 							{item.title}
 						</span>
@@ -99,6 +110,7 @@ const LayoutTabs = () => {
 			onChange={tabsClick}
 			hideAdd
 			type="editable-card"
+			className="main-tabs bg-white px-3"
 			onEdit={(path) => {
 				delTabs(path as string);
 			}}

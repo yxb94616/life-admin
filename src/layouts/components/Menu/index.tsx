@@ -46,6 +46,11 @@ const LayoutMenu = () => {
 			icon: <AreaChartOutlined />,
 		},
 		{
+			title: "store",
+			path: "/store-demo",
+			icon: <AreaChartOutlined />,
+		},
+		{
 			title: "超级表格",
 			path: "/proTable",
 			icon: <TableOutlined />,
