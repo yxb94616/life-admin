@@ -1,8 +1,12 @@
 import { Navigate, RouteObject, useRoutes } from "react-router-dom";
 import LayoutIndex from "~@/layouts";
+import DataVisualize from "~@/views/dashboard/dataVisualize";
+import DataScreen from "~@/views/dataScreen";
 import Home from "~@/views/home";
 import Login from "~@/views/login";
 import StoreDemo from "~@/views/StoreDemo";
+import UseComponent from "~@/views/table/useComponent";
+import UseHooks from "~@/views/table/useHooks";
 import NotFound from "~@/components/ErrorMessage/404";
 
 const rootRouter: RouteObject[] = [
@@ -15,7 +19,7 @@ const rootRouter: RouteObject[] = [
 		element: <Login />,
 	},
 	{
-		element: <LayoutIndex name="我是参数" />,
+		element: <LayoutIndex />,
 		children: [
 			{
 				path: "/home",
@@ -24,6 +28,26 @@ const rootRouter: RouteObject[] = [
 			{
 				path: "/store-demo",
 				element: <StoreDemo />,
+			},
+			{
+				path: "/dataScreen",
+				element: <DataScreen />,
+			},
+			{
+				path: "/table/useHooks",
+				element: <UseHooks />,
+			},
+			{
+				path: "/table/useComponent",
+				element: <UseComponent />,
+			},
+			{
+				path: "/dashboard/dataVisualize",
+				element: <DataVisualize />,
+			},
+			{
+				path: "*",
+				element: <NotFound />,
 			},
 		],
 	},

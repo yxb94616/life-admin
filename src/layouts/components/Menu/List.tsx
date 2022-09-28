@@ -12,31 +12,6 @@ import {
 } from "@ant-design/icons";
 import { MenuOptions } from "~@/typings/global";
 
-interface IMenuItem {
-	label: ReactNode;
-	key: string;
-	icon: ReactNode;
-	children?: IMenuItem[];
-}
-
-const handleMenu = (menu: MenuOptions[]) => {
-	const data: IMenuItem[] = [];
-	for (let i = 0; i < menu.length; i++) {
-		const item = menu[i];
-		const obj: IMenuItem = {
-			label: <Link to={item.path}>{item.title}</Link>,
-			key: item.path,
-			icon: item.icon,
-		};
-		if (item.children && item.children.length > 0) {
-			obj.label = item.title;
-			obj.children = handleMenu(item.children);
-		}
-		data.push(obj);
-	}
-	return data;
-};
-
 const _menu = [
 	{
 		title: "首页",
@@ -61,6 +36,7 @@ const _menu = [
 			{
 				title: "使用 Hooks",
 				path: "/table/useHooks",
+				icon: <AppstoreOutlined />,
 			},
 			{
 				title: "使用 Component",
@@ -164,6 +140,30 @@ const _menu = [
 	},
 ];
 
+interface IMenuItem {
+	label: ReactNode;
+	key: string;
+	icon: ReactNode;
+	children?: IMenuItem[];
+}
+
+const handleMenu = (menu: MenuOptions[]) => {
+	const data: IMenuItem[] = [];
+	for (let i = 0; i < menu.length; i++) {
+		const item = menu[i];
+		const obj: IMenuItem = {
+			label: <Link to={item.path}>{item.title}</Link>,
+			key: item.path,
+			icon: item.icon,
+		};
+		if (item.children && item.children.length > 0) {
+			obj.label = item.title;
+			obj.children = handleMenu(item.children);
+		}
+		data.push(obj);
+	}
+	return data;
+};
 const List = handleMenu(_menu);
 
 export default List;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { Tabs } from "antd";
 import { HomeFilled } from "@ant-design/icons";
 
@@ -10,6 +10,22 @@ const LayoutTabs = () => {
 		{
 			title: "首页",
 			path: "/home",
+		},
+		{
+			title: "数据大屏",
+			path: "/dataScreen",
+		},
+		{
+			title: "使用 Hooks",
+			path: "/table/useHooks",
+		},
+		{
+			title: "使用 Component",
+			path: "/table/useComponent",
+		},
+		{
+			title: "数据可视化",
+			path: "/dashboard/dataVisualize",
 		},
 	]);
 
@@ -30,10 +46,14 @@ const LayoutTabs = () => {
 			items={tabsList.map((item) => {
 				return {
 					label: (
-						<span key={item.path} className="flex items-center">
+						<NavLink
+							key={item.path}
+							className={({ isActive }) => `flex items-center ${isActive ? "text-primary" : "text-neutral-500"}`}
+							to={item.path}
+						>
 							{item.path == "/home" ? <HomeFilled /> : ""}
 							{item.title}
-						</span>
+						</NavLink>
 					),
 					closable: item.path == "/home" ? false : true,
 					key: item.path,

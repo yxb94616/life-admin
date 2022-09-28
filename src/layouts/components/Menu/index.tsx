@@ -4,10 +4,11 @@ import { Menu } from "antd";
 import List from "./List";
 import Logo from "./Logo";
 
-const getOpenKeys = (path: string) => {
+const getKeyPath = (path: string) => {
 	let str = "";
 	const arr = path
 		.split("/")
+		.slice(1)
 		.map((item) => "/" + item)
 		.map((item) => {
 			return (str += item).replace(/\/\//g, "/");
@@ -22,13 +23,18 @@ const LayoutMenu = () => {
 
 	useEffect(() => {
 		setMenuActive(pathname);
-		setOpenKeys(getOpenKeys(pathname));
+		setOpenKeys(getKeyPath(pathname));
 	}, [pathname]);
 
 	const [openKeys, setOpenKeys] = useState<string[]>([]);
 
 	const onOpenChange = (keys: string[]) => {
-		setOpenKeys([keys[keys.length - 1]]);
+		if (keys.length == 0) {
+			setOpenKeys([]);
+			return;
+		}
+		const path = keys[keys.length - 1];
+		setOpenKeys(getKeyPath(path));
 	};
 
 	return (

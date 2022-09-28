@@ -15,7 +15,8 @@ const LayoutHeader = () => {
 				<CollapseIcon />
 				<BreadcrumbNav />
 			</div>
-			<div>
+			<div className="flex items-center">
+				<span className="mr-5 text-base text-black/80">Hooks</span>
 				<AvatarIcon />
 			</div>
 		</Header>
