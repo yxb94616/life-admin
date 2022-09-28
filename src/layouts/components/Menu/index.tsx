@@ -1,79 +1,44 @@
-import { ReactNode, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Menu } from "antd";
-import { AreaChartOutlined, HomeOutlined, TableOutlined } from "@ant-design/icons";
-import { MenuOptions } from "~@/typings/global";
+import List from "./List";
 import Logo from "./Logo";
 
-interface IMenuItem {
-	label: ReactNode;
-	key: string;
-	icon: ReactNode;
-	children?: IMenuItem[];
-}
+const getOpenKeys = (path: string) => {
+	let str = "";
+	const arr = path
+		.split("/")
+		.map((item) => "/" + item)
+		.map((item) => {
+			return (str += item).replace(/\/\//g, "/");
+		});
 
-const handleMenu = (menu: MenuOptions[]) => {
-	const data: IMenuItem[] = [];
-	for (let i = 0; i < menu.length; i++) {
-		const item = menu[i];
-		const obj: IMenuItem = {
-			label: <Link to={item.path}>{item.title}</Link>,
-			key: item.path,
-			icon: item.icon,
-		};
-		if (item.children && item.children.length > 0) {
-			obj.label = item.title;
-			obj.children = handleMenu(item.children);
-		}
-		data.push(obj);
-	}
-	return data;
+	return arr;
 };
 
 const LayoutMenu = () => {
 	const { pathname } = useLocation();
 	const [menuActive, setMenuActive] = useState(pathname);
 
-	const _menu = handleMenu([
-		{
-			title: "首页",
-			path: "/home",
-			icon: <HomeOutlined />,
-		},
-		{
-			title: "数据大屏",
-			path: "/dataScreen",
-			icon: <AreaChartOutlined />,
-		},
-		{
-			title: "store",
-			path: "/store-demo",
-			icon: <AreaChartOutlined />,
-		},
-		{
-			title: "超级表格",
-			path: "/proTable",
-			icon: <TableOutlined />,
-			children: [
-				{
-					title: "使用 Hooks",
-					path: "/table/useHooks",
-				},
-			],
-		},
-	]);
-	const [menuList] = useState(_menu);
-
 	useEffect(() => {
 		setMenuActive(pathname);
+		setOpenKeys(getOpenKeys(pathname));
 	}, [pathname]);
+
+	const [openKeys, setOpenKeys] = useState<string[]>([]);
+
+	const onOpenChange = (keys: string[]) => {
+		setOpenKeys([keys[keys.length - 1]]);
+	};
 
 	return (
 		<div className="h-full">
 			<Logo />
 			<Menu
-				items={menuList}
+				items={List}
 				selectedKeys={[menuActive]}
+				openKeys={openKeys}
+				onOpenChange={onOpenChange}
 				theme="dark"
 				mode="inline"
 				triggerSubMenuAction="click"
