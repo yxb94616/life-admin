@@ -1,13 +1,6 @@
+import React from "react";
 import { Navigate, RouteObject, useRoutes } from "react-router-dom";
-import LayoutIndex from "~@/layouts";
-import DataVisualize from "~@/views/dashboard/dataVisualize";
-import DataScreen from "~@/views/dataScreen";
-import Home from "~@/views/home";
-import Login from "~@/views/login";
-import StoreDemo from "~@/views/StoreDemo";
-import UseComponent from "~@/views/table/useComponent";
-import UseHooks from "~@/views/table/useHooks";
-import NotFound from "~@/components/ErrorMessage/404";
+import LazyLoad from "./lazyLoad";
 
 const rootRouter: RouteObject[] = [
 	{
@@ -16,44 +9,44 @@ const rootRouter: RouteObject[] = [
 	},
 	{
 		path: "/login",
-		element: <Login />,
+		element: LazyLoad(React.lazy(() => import("~@/views/login"))),
 	},
 	{
-		element: <LayoutIndex />,
+		element: LazyLoad(React.lazy(() => import("~@/layouts"))),
 		children: [
 			{
 				path: "/home",
-				element: <Home />,
+				element: LazyLoad(React.lazy(() => import("~@/views/home"))),
 			},
 			{
 				path: "/store-demo",
-				element: <StoreDemo />,
+				element: LazyLoad(React.lazy(() => import("~@/views/StoreDemo"))),
 			},
 			{
 				path: "/dataScreen",
-				element: <DataScreen />,
+				element: LazyLoad(React.lazy(() => import("~@/views/dataScreen"))),
 			},
 			{
 				path: "/table/useHooks",
-				element: <UseHooks />,
+				element: LazyLoad(React.lazy(() => import("~@/views/table/useHooks"))),
 			},
 			{
 				path: "/table/useComponent",
-				element: <UseComponent />,
+				element: LazyLoad(React.lazy(() => import("~@/views/table/useComponent"))),
 			},
 			{
 				path: "/dashboard/dataVisualize",
-				element: <DataVisualize />,
+				element: LazyLoad(React.lazy(() => import("~@/views/dashboard/dataVisualize"))),
 			},
 			{
 				path: "*",
-				element: <NotFound />,
+				element: LazyLoad(React.lazy(() => import("~@/views/error/404"))),
 			},
 		],
 	},
 	{
 		path: "*",
-		element: <NotFound />,
+		element: LazyLoad(React.lazy(() => import("~@/views/error/404"))),
 	},
 ];
 

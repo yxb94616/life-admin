@@ -1,4 +1,5 @@
 import path from "path";
+import { Recordable, ViteEnv } from "~@/typings/global";
 
 export function isDevFn(mode: string): boolean {
 	return mode === "development";
