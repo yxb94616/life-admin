@@ -1,9 +1,9 @@
 import { Suspense } from "react";
-import { Spin } from "antd";
+import Loading from "~@/components/Loading";
 
 const LazyLoad = (Comp: React.LazyExoticComponent<any>) => {
 	return (
-		<Suspense fallback={<Spin size="large" className="h-full !flex justify-center items-center" />}>
+		<Suspense fallback={<Loading />}>
 			<Comp />
 		</Suspense>
 	);
