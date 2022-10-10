@@ -1,4 +1,4 @@
-import { ConfigEnv, defineConfig, loadEnv, UserConfig } from "vite";
+import { ConfigEnv, defineConfig, loadEnv, PluginOption, UserConfig } from "vite";
 import viteCompression from "vite-plugin-compression";
 import eslintPlugin from "vite-plugin-eslint";
 import { createHtmlPlugin } from "vite-plugin-html";
@@ -47,7 +47,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 			// * EsLint 报错信息显示在浏览器界面上
 			eslintPlugin(),
 			// * 是否生成包预览
-			viteEnv.VITE_REPORT && visualizer(),
+			viteEnv.VITE_REPORT && (visualizer() as PluginOption),
 			// * gzip compress
 			viteEnv.VITE_BUILD_GZIP &&
 				viteCompression({

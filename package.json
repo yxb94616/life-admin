@@ -12,7 +12,8 @@
 		"lint:prettier": "prettier --write --loglevel warn \"src/**/*.{js,ts,json,tsx,css,less,scss,html,md}\"",
 		"lint:lint-staged": "lint-staged",
 		"prepare": "husky install",
-		"commit": "git pull && git add . && git-cz && git push"
+		"commit": "git pull && git add . && git-cz",
+		"commit-push": "git pull && git add . && git-cz && git push"
 	},
 	"dependencies": {
 		"@ant-design/icons": "^4.7.0",

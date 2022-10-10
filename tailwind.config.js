@@ -10,6 +10,9 @@ module.exports = {
 				header: "var(--header-height)",
 				"omit-header": "calc(100vh - var(--header-height))",
 			},
+			backgroundImage: {
+				login: "url(/src/assets/images/bg-login.jpg)",
+			},
 		},
 	},
 	plugins: [],
