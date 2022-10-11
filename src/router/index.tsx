@@ -45,6 +45,14 @@ const rootRouter: RouteObject[] = [
 		],
 	},
 	{
+		path: "/403",
+		element: LazyLoad(React.lazy(() => import("~@/views/error/403"))),
+	},
+	{
+		path: "/500",
+		element: LazyLoad(React.lazy(() => import("~@/views/error/500"))),
+	},
+	{
 		path: "*",
 		element: LazyLoad(React.lazy(() => import("~@/views/error/404"))),
 	},
