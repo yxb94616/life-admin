@@ -6,13 +6,15 @@ export default () => {
 		timeout: "200-1000",
 	});
 
+	const baseURL = import.meta.env.VITE_API_URL;
+
 	const result = {
 		code: 0,
 		data: null,
 		message: "操作成功",
 	};
 
-	Mock.mock(API_LOGIN, "post", {
+	Mock.mock(baseURL + API_LOGIN, "post", {
 		...result,
 		data: {
 			id: "@id",

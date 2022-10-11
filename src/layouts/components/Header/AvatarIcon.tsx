@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Dropdown, Menu, message, Modal } from "antd";
 import { DownOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { useSnapshot } from "valtio";
@@ -8,10 +8,12 @@ import avatar from "../../../assets/images/avatar.png";
 import InfoModal from "./InfoModal";
 import PasswordModal from "./PasswordModal";
 
+interface ModalProps {
+	showModal: (params: { name: number }) => void;
+}
+
 const AvatarIcon = () => {
-	interface ModalProps {
-		showModal: (params: { name: number }) => void;
-	}
+	const navigate = useNavigate();
 
 	const passRef = useRef<ModalProps>(null!);
 	const infoRef = useRef<ModalProps>(null!);
@@ -24,7 +26,11 @@ const AvatarIcon = () => {
 			okText: "确认",
 			cancelText: "取消",
 			onOk: () => {
+				localStorage.clear();
+				userStore.token = null;
+				userStore.userinfo = null;
 				message.success("退出登录成功！");
+				navigate("/login");
 			},
 		});
 	};
