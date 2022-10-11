@@ -1,14 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Checkbox, Form, Input } from "antd";
 import { LockOutlined, SafetyCertificateOutlined, UserOutlined } from "@ant-design/icons";
+import { ILogin } from "~@/api/interface";
+import { LoginHttp } from "~@/api/module";
 import constant from "~@/config/constant";
 import { userStore } from "~@/store/user";
-import { ILoginForm, IUserinfo } from "~@/typings/user";
 import Code from "../../assets/images/verification-code.png";
 
 const default_position = "left-1/2 -translate-x-1/2";
-const initForm: ILoginForm = {
+const initForm: ILogin.ILoginForm = {
 	remember: true,
 	username: "admin",
 	password: "LifeAdmin!_09",
@@ -17,23 +18,24 @@ const initForm: ILoginForm = {
 
 function LoginForm({ position = "center" }) {
 	const navigate = useNavigate();
+	const [loading, setLoading] = useState(false);
 
-	const onFinish = (values: ILoginForm) => {
-		console.log("values of form: ", values);
-		const userinfo: IUserinfo = {
-			id: "1212321313",
-			username: values.username,
-			nickname: "管理员",
-			token: "bGlmZV9hZG1pbg==",
-		};
+	const onFinish = async (values: ILogin.ILoginForm) => {
+		setLoading(true);
+		try {
+			const { data } = await LoginHttp(values);
+			if (data) {
+				userStore.token = data.token;
+				localStorage.setItem(constant.storage.token, data.token);
 
-		userStore.token = userinfo.token;
-		localStorage.setItem(constant.storage.token, userinfo.token);
+				userStore.userinfo = data;
+				localStorage.setItem(constant.storage.userinfo, JSON.stringify(data));
 
-		userStore.userinfo = userinfo;
-		localStorage.setItem(constant.storage.userinfo, JSON.stringify(userinfo));
-
-		navigate("/", { replace: true });
+				navigate("/", { replace: true });
+			}
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	const [form] = Form.useForm();
@@ -86,7 +88,7 @@ function LoginForm({ position = "center" }) {
 				</Link>
 			</Form.Item>
 			<Form.Item>
-				<Button type="primary" block size="large" htmlType="submit" className="">
+				<Button type="primary" block size="large" htmlType="submit" loading={loading}>
 					登录
 				</Button>
 			</Form.Item>
