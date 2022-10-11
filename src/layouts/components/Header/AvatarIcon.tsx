@@ -10,7 +10,7 @@ import InfoModal from "./InfoModal";
 import PasswordModal from "./PasswordModal";
 
 interface ModalProps {
-	showModal: (params: { name: number }) => void;
+	showModal: () => void;
 }
 
 const AvatarIcon = () => {

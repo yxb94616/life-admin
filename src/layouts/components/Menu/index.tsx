@@ -100,7 +100,7 @@ const LayoutMenu = () => {
 
 	return (
 		<div className="h-full">
-			<Spin spinning={loading} tip="loading...">
+			<Spin spinning={loading}>
 				<Logo />
 				<Menu
 					items={menuList}

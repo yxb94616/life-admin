@@ -2,6 +2,8 @@ import { Layout } from "antd";
 import AvatarIcon from "./AvatarIcon";
 import BreadcrumbNav from "./BreadcrumbNav";
 import CollapseIcon from "./CollapseIcon";
+import Language from "./Language";
+import Theme from "./Theme";
 
 const { Header } = Layout;
 
@@ -16,6 +18,8 @@ const LayoutHeader = () => {
 				<BreadcrumbNav />
 			</div>
 			<div className="flex items-center">
+				<Language />
+				<Theme />
 				<AvatarIcon />
 			</div>
 		</Header>
