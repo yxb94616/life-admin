@@ -1,31 +1,18 @@
 import { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Tabs } from "antd";
 import { HomeFilled } from "@ant-design/icons";
+import { HOME_URL } from "~@/config/constant";
 
 const LayoutTabs = () => {
 	const { pathname } = useLocation();
+	const navigate = useNavigate();
+
 	const [activeValue, setActiveValue] = useState(pathname);
 	const [tabsList] = useState([
 		{
 			title: "首页",
-			path: "/home",
-		},
-		{
-			title: "数据大屏",
-			path: "/dataScreen",
-		},
-		{
-			title: "使用 Hooks",
-			path: "/table/useHooks",
-		},
-		{
-			title: "使用 Component",
-			path: "/table/useComponent",
-		},
-		{
-			title: "数据可视化",
-			path: "/dashboard/dataVisualize",
+			path: HOME_URL,
 		},
 	]);
 
@@ -34,28 +21,24 @@ const LayoutTabs = () => {
 	}, [pathname]);
 
 	const tabsClick = (path: string) => {
-		console.log(path);
+		navigate(path);
 	};
 
 	const delTabs = (path: string) => {
 		console.log(path);
 	};
-
 	return (
 		<Tabs
+			animated
 			items={tabsList.map((item) => {
 				return {
 					label: (
-						<NavLink
-							key={item.path}
-							className={({ isActive }) => `flex items-center ${isActive ? "text-primary" : "text-neutral-500"}`}
-							to={item.path}
-						>
-							{item.path == "/home" ? <HomeFilled /> : ""}
+						<span className="flex items-center">
+							{item.path == HOME_URL ? <HomeFilled /> : ""}
 							{item.title}
-						</NavLink>
+						</span>
 					),
-					closable: item.path == "/home" ? false : true,
+					closable: item.path == HOME_URL ? false : true,
 					key: item.path,
 				};
 			})}

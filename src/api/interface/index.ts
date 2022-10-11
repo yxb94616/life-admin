@@ -38,3 +38,15 @@ export namespace ILogin {
 		token: string;
 	}
 }
+
+// 菜单
+export namespace IMenu {
+	export interface IMenuOptions {
+		path: string;
+		title: string;
+		icon?: string;
+		isLink?: string;
+		close?: boolean;
+		children?: IMenuOptions[];
+	}
+}

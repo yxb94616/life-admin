@@ -1,11 +1,12 @@
 import React from "react";
 import { Navigate, RouteObject, useRoutes } from "react-router-dom";
+import { HOME_URL } from "~@/config/constant";
 import LazyLoad from "./lazyLoad";
 
 const rootRouter: RouteObject[] = [
 	{
 		path: "/",
-		element: <Navigate to="/home" />,
+		element: <Navigate to={HOME_URL} />,
 	},
 	{
 		path: "/login",
@@ -15,7 +16,7 @@ const rootRouter: RouteObject[] = [
 		element: LazyLoad(React.lazy(() => import("~@/layouts"))),
 		children: [
 			{
-				path: "/home",
+				path: HOME_URL,
 				element: LazyLoad(React.lazy(() => import("~@/views/home"))),
 			},
 			{

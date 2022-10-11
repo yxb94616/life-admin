@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Dropdown, Menu, message, Modal } from "antd";
 import { DownOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { useSnapshot } from "valtio";
+import { HOME_URL } from "~@/config/constant";
 import { userStore } from "~@/store/user";
 import avatar from "../../../assets/images/avatar.png";
 import InfoModal from "./InfoModal";
@@ -39,7 +40,7 @@ const AvatarIcon = () => {
 		<Menu
 			items={[
 				{
-					label: <Link to="/home">首页</Link>,
+					label: <Link to={HOME_URL}>首页</Link>,
 					key: "0",
 				},
 				{

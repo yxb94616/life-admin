@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { Button, Result } from "antd";
+import { HOME_URL } from "~@/config/constant";
 
 const NotAuth = () => {
 	const navigate = useNavigate();
 	const goHome = () => {
-		navigate("/home");
+		navigate(HOME_URL);
 	};
 
 	return (
