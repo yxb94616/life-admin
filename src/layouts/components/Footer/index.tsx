@@ -5,7 +5,7 @@ const LayoutFooter = () => {
 				href="https://yxb94616.github.io/"
 				target="_blank"
 				rel="noreferrer"
-				className="text-sm tracking-wide text-[#858585] no-underline"
+				className="text-sm tracking-wide text-[#858585] no-underline whitespace-nowrap"
 			>
 				2022 © Life-Admin By Hooks Technology.
 			</a>
