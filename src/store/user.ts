@@ -8,4 +8,6 @@ export const userStore = proxy<{ token: string | null; userinfo: ILogin.IUserinf
 	userinfo: JSON.parse(localStorage.getItem(constant.storage.userinfo) || "null"),
 });
 
-devtools(userStore, { name: "userStore", enabled: true });
+if (import.meta.env.DEV) {
+	devtools(userStore, { name: "userStore", enabled: true });
+}

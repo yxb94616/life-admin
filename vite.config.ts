@@ -5,13 +5,10 @@ import { createHtmlPlugin } from "vite-plugin-html";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import { visualizer } from "rollup-plugin-visualizer";
-import { wrapperEnv } from "./src/utils/getEnv";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
-	const env = loadEnv(mode, process.cwd());
-	const viteEnv = wrapperEnv(env);
-
+	const env = loadEnv(mode, process.cwd()) as ImportMetaEnv;
 	return {
 		// alias config
 		resolve: {
@@ -22,8 +19,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 		// server config
 		server: {
 			host: "0.0.0.0", // 服务器主机名，如果允许外部访问，可设置为"0.0.0.0"
-			port: viteEnv.VITE_PORT,
-			open: viteEnv.VITE_OPEN,
+			port: 5001,
+			open: true,
 			cors: true,
 			// https: false,
 			// 代理跨域
@@ -40,26 +37,25 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 			createHtmlPlugin({
 				inject: {
 					data: {
-						title: viteEnv.VITE_APP_TITLE,
+						title: env.VITE_APP_TITLE,
 					},
 				},
 			}),
 			// * EsLint 报错信息显示在浏览器界面上
 			eslintPlugin(),
 			// * 是否生成包预览
-			viteEnv.VITE_REPORT && (visualizer() as PluginOption),
+			visualizer() as PluginOption,
 			// * gzip compress
-			viteEnv.VITE_BUILD_GZIP &&
-				viteCompression({
-					verbose: true,
-					disable: false,
-					threshold: 10240,
-					algorithm: "gzip",
-					ext: ".gz",
-				}),
+			viteCompression({
+				verbose: true,
+				disable: false,
+				threshold: 10240,
+				algorithm: "gzip",
+				ext: ".gz",
+			}),
 		],
 		esbuild: {
-			pure: viteEnv.VITE_DROP_CONSOLE ? ["console.log", "debugger"] : [],
+			pure: ["console.log", "debugger"],
 		},
 		// build configure
 		build: {
