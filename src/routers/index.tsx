@@ -5,23 +5,18 @@ import { IRouteObject } from "./interface";
 import LazyLoad from "./lazyLoad";
 
 // 导入所有 router
-const metaRouters = import.meta.glob("./modules/*.tsx");
+const metaRouters = import.meta.glob("./modules/*.tsx", { eager: true });
 
 interface IRouter {
 	default: IRouteObject[];
 }
 
 // 处理路由
-const getRouterArray = async () => {
-	let routers: IRouteObject[] = [];
-	for (const path in metaRouters) {
-		const router = await metaRouters[path]();
-		routers = routers.concat((router as IRouter).default);
-	}
-	return routers;
-};
-
-const routerArray = await getRouterArray();
+let routerArray: IRouteObject[] = [];
+for (const path in metaRouters) {
+	const router = metaRouters[path];
+	routerArray = routerArray.concat((router as IRouter).default);
+}
 
 const routes: IRouteObject[] = [
 	{
