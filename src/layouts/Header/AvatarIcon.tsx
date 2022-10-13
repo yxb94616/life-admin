@@ -41,11 +41,11 @@ const AvatarIcon = () => {
 			items={[
 				{
 					label: <Link to={HOME_URL}>首页</Link>,
-					key: "0",
+					key: "1",
 				},
 				{
 					label: <span onClick={() => infoRef.current.showModal()}>个人信息</span>,
-					key: "1",
+					key: "2",
 				},
 				{
 					label: <span onClick={() => passRef.current.showModal()}>修改密码</span>,
