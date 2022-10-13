@@ -1,6 +1,6 @@
 import { useSnapshot } from "valtio";
+import logo from "~@/assets/images/logo.png";
 import { systemStore } from "~@/store/system";
-import logo from "../../../assets/images/logo.png";
 
 const Logo = () => {
 	const { isCollapse } = useSnapshot(systemStore);

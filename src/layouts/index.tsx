@@ -2,10 +2,10 @@ import { Outlet } from "react-router-dom";
 import { Layout } from "antd";
 import { useSnapshot } from "valtio";
 import { systemStore } from "~@/store/system";
-import LayoutFooter from "./components/Footer";
-import LayoutHeader from "./components/Header";
-import LayoutMenu from "./components/Menu";
-import LayoutTabs from "./components/Tabs";
+import LayoutFooter from "./Footer";
+import LayoutHeader from "./Header";
+import LayoutMenu from "./Menu";
+import LayoutTabs from "./Tabs";
 
 const { Sider, Content } = Layout;
 
