@@ -3,8 +3,10 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, MenuProps, Spin } from "antd";
 import * as Icons from "@ant-design/icons";
+import { useSnapshot } from "valtio";
 import { IMenu } from "~@/api/interface";
 import { getMenuListHttp } from "~@/api/module";
+import { systemStore } from "~@/store/system";
 import Logo from "./Logo";
 
 type IMenuItem = Required<MenuProps>["items"][number];
@@ -41,11 +43,14 @@ const getKeyPath = (path: string) => {
 const LayoutMenu = () => {
 	const { pathname } = useLocation();
 	const [menuActive, setMenuActive] = useState(pathname);
+	const { isCollapse } = useSnapshot(systemStore);
 
 	useEffect(() => {
 		setMenuActive(pathname);
-		setOpenKeys(getKeyPath(pathname));
-	}, [pathname]);
+		if (!isCollapse) {
+			setOpenKeys(getKeyPath(pathname));
+		}
+	}, [pathname, isCollapse]);
 
 	const [openKeys, setOpenKeys] = useState<string[]>([]);
 
@@ -99,7 +104,7 @@ const LayoutMenu = () => {
 	};
 
 	return (
-		<div className="h-full">
+		<div className="h-full menu">
 			<Spin spinning={loading}>
 				<Logo />
 				<Menu
@@ -110,8 +115,8 @@ const LayoutMenu = () => {
 					onClick={clickMenu}
 					theme="dark"
 					mode="inline"
-					triggerSubMenuAction="click"
-					className="h-omit-header overflow-auto"
+					triggerSubMenuAction="hover"
+					className="h-omit-header overflow-x-hidden overflow-y-auto"
 				/>
 			</Spin>
 		</div>

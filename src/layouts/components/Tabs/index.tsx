@@ -27,6 +27,7 @@ const LayoutTabs = () => {
 	const delTabs = (path: string) => {
 		console.log(path);
 	};
+
 	return (
 		<Tabs
 			animated

@@ -1,14 +1,16 @@
 import { proxy, ref } from "valtio";
 import { devtools } from "valtio/utils";
 
-export const systemStore = proxy({ count: 0, text: "hello", obj: { foo: "bar" }, dom: ref(document.body) });
+export const systemStore = proxy({ dom: ref(document.body), isCollapse: false });
 
 if (import.meta.env.DEV) {
 	devtools(systemStore, { name: "systemStore", enabled: true });
 }
 
-// export const systemSub = subscribe(systemStore, () => console.log("state has changed to", systemStore));
-// export const unSystemSubKey = subscribeKey(systemStore, "count", (v) => console.log("state.count has changed to", v));
-// export const unSystemWatch = watch((get) => {
-// 	console.log("state has changed to", get(systemStore));
-// });
+export const updateCollapse = (isCollapse?: boolean) => {
+	if (!isCollapse) {
+		systemStore.isCollapse = !systemStore.isCollapse;
+	} else {
+		systemStore.isCollapse = isCollapse;
+	}
+};
