@@ -1,0 +1,58 @@
+{
+  "id": "1387019",
+  "name": "bms5a",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2207111",
+      "name": "file_music",
+      "font_class": "file_music",
+      "unicode": "e6be",
+      "unicode_decimal": 59070
+    },
+    {
+      "icon_id": "2207115",
+      "name": "file_ppt_office",
+      "font_class": "file_ppt_office",
+      "unicode": "e6bf",
+      "unicode_decimal": 59071
+    },
+    {
+      "icon_id": "2207116",
+      "name": "file_pdf",
+      "font_class": "file_pdf",
+      "unicode": "e6c0",
+      "unicode_decimal": 59072
+    },
+    {
+      "icon_id": "2207118",
+      "name": "file_video",
+      "font_class": "file_video",
+      "unicode": "e6c1",
+      "unicode_decimal": 59073
+    },
+    {
+      "icon_id": "2207120",
+      "name": "file_word_office",
+      "font_class": "file_word_office",
+      "unicode": "e6c2",
+      "unicode_decimal": 59074
+    },
+    {
+      "icon_id": "2207121",
+      "name": "file_zip",
+      "font_class": "file_zip",
+      "unicode": "e6c3",
+      "unicode_decimal": 59075
+    },
+    {
+      "icon_id": "2207108",
+      "name": "file_excel_office",
+      "font_class": "file_excel_office",
+      "unicode": "e6bd",
+      "unicode_decimal": 59069
+    }
+  ]
+}
