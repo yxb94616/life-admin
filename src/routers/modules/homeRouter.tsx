@@ -6,14 +6,19 @@ import LazyLoad from "../lazyLoad";
 // 首页模块
 const homeRouter: IRouteObject[] = [
 	{
-		path: HOME_URL,
-		element: LazyLoad(React.lazy(() => import("~@/views/home"))),
-		meta: {
-			keepAlive: true,
-			requiresAuth: true,
-			title: "首页",
-			key: "home",
-		},
+		element: LazyLoad(React.lazy(() => import("~@/layouts"))),
+		children: [
+			{
+				path: HOME_URL,
+				element: LazyLoad(React.lazy(() => import("~@/views/home"))),
+				meta: {
+					keepAlive: true,
+					requiresAuth: true,
+					title: "首页",
+					key: "home",
+				},
+			},
+		],
 	},
 ];
 

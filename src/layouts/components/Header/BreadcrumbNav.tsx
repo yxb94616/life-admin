@@ -1,11 +1,16 @@
+import { matchRoutes, useLocation } from "react-router-dom";
 import { Breadcrumb } from "antd";
+import { routes } from "~@/routers";
 
 const BreadcrumbNav = () => {
+	const location = useLocation();
+	const match = matchRoutes(routes, location);
+
 	return (
 		<Breadcrumb>
-			<Breadcrumb.Item>Home</Breadcrumb.Item>
-			<Breadcrumb.Item>List</Breadcrumb.Item>
-			<Breadcrumb.Item>App</Breadcrumb.Item>
+			{match?.map((item) => {
+				return item.route.meta?.title && <Breadcrumb.Item key={item.pathname}>{item.route.meta.title}</Breadcrumb.Item>;
+			})}
 		</Breadcrumb>
 	);
 };

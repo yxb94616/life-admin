@@ -23,7 +23,7 @@ const getRouterArray = async () => {
 
 const routerArray = await getRouterArray();
 
-const rootRouter: IRouteObject[] = [
+const routes: IRouteObject[] = [
 	{
 		path: "/",
 		element: <Navigate to={HOME_URL} />,
@@ -37,10 +37,7 @@ const rootRouter: IRouteObject[] = [
 			key: "login",
 		},
 	},
-	{
-		element: LazyLoad(React.lazy(() => import("~@/layouts"))),
-		children: [...routerArray],
-	},
+	...routerArray,
 	{
 		path: "*",
 		element: <Navigate to="/404" />,
@@ -48,10 +45,9 @@ const rootRouter: IRouteObject[] = [
 ];
 
 const Router = () => {
-	const routes = useRoutes(rootRouter);
-	return routes;
+	return useRoutes(routes);
 };
 
-export { routerArray, rootRouter };
+export { routes };
 
 export default Router;
