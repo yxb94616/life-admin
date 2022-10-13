@@ -2,36 +2,39 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Tabs } from "antd";
 import { HomeFilled } from "@ant-design/icons";
+import { useSnapshot } from "valtio";
 import { HOME_URL } from "~@/config/constant";
+import { delTabs, systemStore } from "~@/store/system";
+import MoreButton from "./MoreButton";
 
 const LayoutTabs = () => {
 	const { pathname } = useLocation();
 	const navigate = useNavigate();
 
 	const [activeValue, setActiveValue] = useState(pathname);
-	const [tabsList] = useState([
-		{
-			title: "首页",
-			path: HOME_URL,
-		},
-	]);
+	const { tabs } = useSnapshot(systemStore);
 
 	useEffect(() => {
 		setActiveValue(pathname);
 	}, [pathname]);
 
-	const tabsClick = (path: string) => {
+	const handleClickTabs = (path: string) => {
 		navigate(path);
 	};
 
-	const delTabs = (path: string) => {
-		console.log(path);
+	const handleDeleteTabs = (path: string) => {
+		const previous = delTabs(path);
+		if (path == pathname) {
+			if (previous) {
+				navigate(previous.path);
+			}
+		}
 	};
 
 	return (
 		<Tabs
 			animated
-			items={tabsList.map((item) => {
+			items={tabs.map((item) => {
 				return {
 					label: (
 						<span className="flex items-center">
@@ -44,13 +47,14 @@ const LayoutTabs = () => {
 				};
 			})}
 			activeKey={activeValue}
-			onChange={tabsClick}
+			onChange={handleClickTabs}
 			hideAdd
 			type="editable-card"
 			className="main-tabs bg-white !px-3"
 			onEdit={(path) => {
-				delTabs(path as string);
+				handleDeleteTabs(path as string);
 			}}
+			tabBarExtraContent={<MoreButton />}
 		></Tabs>
 	);
 };

@@ -6,7 +6,7 @@ import * as Icons from "@ant-design/icons";
 import { useSnapshot } from "valtio";
 import { IMenu } from "~@/api/interface";
 import { getMenuListHttp } from "~@/api/module";
-import { systemStore } from "~@/store/system";
+import { addTabs, systemStore } from "~@/store/system";
 import Logo from "./Logo";
 
 type IMenuItem = Required<MenuProps>["items"][number];
@@ -99,8 +99,12 @@ const LayoutMenu = () => {
 
 	// 点击当前菜单跳转
 	const navigate = useNavigate();
-	const clickMenu: MenuProps["onClick"] = ({ key }: { key: string }) => {
-		navigate(key);
+	const clickMenu: MenuProps["onClick"] = (e) => {
+		addTabs({
+			title: (e.domEvent.target as HTMLElement).innerText,
+			path: e.key,
+		});
+		navigate(e.key);
 	};
 
 	return (

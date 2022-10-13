@@ -14,6 +14,7 @@ export const MAP_KEY: string = "";
 const storage = {
 	userinfo: storage_prefix + "user",
 	token: storage_prefix + "token",
+	tabs: storage_prefix + "tabs",
 };
 
 /** 应用中用到的常量 */
