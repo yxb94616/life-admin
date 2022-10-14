@@ -1,18 +1,20 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { useSnapshot } from "valtio";
-import { systemStore, updateCollapse } from "~@/store/system";
+import { systemStore, updateGlobalConfig } from "~@/store/system";
 
 const CollapseIcon = () => {
-	const { isCollapse } = useSnapshot(systemStore);
+	const { global } = useSnapshot(systemStore);
 
 	return (
 		<div
 			className="mr-5 text-lg cursor-pointer transition-colors duration-300 flex items-center justify-center"
 			onClick={() => {
-				updateCollapse();
+				updateGlobalConfig({
+					isCollapse: !global.isCollapse,
+				});
 			}}
 		>
-			{isCollapse ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+			{global.isCollapse ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
 		</div>
 	);
 };

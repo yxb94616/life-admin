@@ -1,4 +1,6 @@
 import { Layout } from "antd";
+import { useSnapshot } from "valtio";
+import { systemStore } from "~@/store/system";
 import AvatarIcon from "./AvatarIcon";
 import BreadcrumbNav from "./BreadcrumbNav";
 import CollapseIcon from "./CollapseIcon";
@@ -8,6 +10,8 @@ import Theme from "./Theme";
 const { Header } = Layout;
 
 const LayoutHeader = () => {
+	const { global } = useSnapshot(systemStore);
+
 	return (
 		<Header
 			className={`flex items-center justify-between 
@@ -15,7 +19,7 @@ const LayoutHeader = () => {
 		>
 			<div className="flex items-center">
 				<CollapseIcon />
-				<BreadcrumbNav />
+				{global.isBreadcrumb && <BreadcrumbNav />}
 			</div>
 			<div className="flex items-center">
 				<Language />

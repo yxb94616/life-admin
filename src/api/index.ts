@@ -1,6 +1,7 @@
 import { message } from "antd";
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { userStore } from "~@/store/user";
+import constant from "~@/config/constant";
+import { updateToken, updateUserinfo } from "~@/store/user";
 import { ResultEnum } from "./helper/httpEnum";
 import { ResultData } from "./interface";
 
@@ -22,7 +23,7 @@ class RequestHttp {
 		// 请求拦截器
 		this.service.interceptors.request.use(
 			(config: AxiosRequestConfig) => {
-				const token = userStore.token;
+				const token = localStorage.getItem(constant.storage.token);
 				return { ...config, headers: { ...config.headers, "x-access-token": token } };
 			},
 			(error: AxiosError) => {
@@ -36,7 +37,8 @@ class RequestHttp {
 
 			// * 登录失效（code == 599）
 			if (data.code == ResultEnum.OVERDUE) {
-				userStore.token = null;
+				updateToken(null);
+				updateUserinfo(null);
 				message.error(data.message);
 				window.location.href = "/login";
 				return Promise.reject(data);

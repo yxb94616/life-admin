@@ -1,10 +1,9 @@
 import { message } from "antd";
 import { CompressOutlined, FullscreenOutlined } from "@ant-design/icons";
 import { useFullscreen } from "ahooks";
-import { systemStore } from "~@/store/system";
 
 const Fullscreen = () => {
-	const [isFullscreen, { toggleFullscreen, isEnabled }] = useFullscreen(systemStore.dom);
+	const [isFullscreen, { toggleFullscreen, isEnabled }] = useFullscreen(document.body);
 
 	const handleFullScreen = () => {
 		if (!isEnabled) message.warning("当前您的浏览器不支持全屏 ❌");

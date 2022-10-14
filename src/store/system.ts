@@ -1,4 +1,5 @@
-import { proxy, ref } from "valtio";
+import type { SizeType } from "antd/es/config-provider/SizeContext";
+import { proxy } from "valtio";
 import { devtools } from "valtio/utils";
 import constant, { HOME_URL } from "~@/config/constant";
 import { ITabs } from "./interface";
@@ -8,27 +9,33 @@ const home_tab = {
 	path: HOME_URL,
 };
 
-export const systemStore = proxy<{
-	dom: HTMLElement;
-	isCollapse: boolean;
-	tabs: ITabs[];
-}>({
-	dom: ref(document.body),
+interface IGlobalConfig {
+	isCollapse?: boolean;
+	isBreadcrumb?: boolean;
+	isTabs?: boolean;
+	isFooter?: boolean;
+	size?: SizeType;
+}
+
+const globalInit: IGlobalConfig = {
 	isCollapse: false,
+	isBreadcrumb: true,
+	isTabs: true,
+	isFooter: true,
+	size: "middle",
+};
+
+export const systemStore = proxy<{
+	tabs: ITabs[];
+	global: IGlobalConfig;
+}>({
 	tabs: JSON.parse(localStorage.getItem(constant.storage.tabs) || "null") || [home_tab],
+	global: JSON.parse(localStorage.getItem(constant.storage.global) || "null") || globalInit,
 });
 
 if (import.meta.env.DEV) {
 	devtools(systemStore, { name: "systemStore", enabled: true });
 }
-
-export const updateCollapse = (isCollapse?: boolean) => {
-	if (!isCollapse) {
-		systemStore.isCollapse = !systemStore.isCollapse;
-	} else {
-		systemStore.isCollapse = isCollapse;
-	}
-};
 
 const setTabsStorage = () => {
 	localStorage.setItem(constant.storage.tabs, JSON.stringify(systemStore.tabs));
@@ -61,4 +68,9 @@ export const closeMultipleTabs = (path?: string) => {
 		systemStore.tabs = [home_tab];
 	}
 	setTabsStorage();
+};
+
+export const updateGlobalConfig = (config: IGlobalConfig) => {
+	systemStore.global = { ...systemStore.global, ...config };
+	localStorage.setItem(constant.storage.global, JSON.stringify(systemStore.global));
 };

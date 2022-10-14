@@ -5,7 +5,7 @@ import { DownOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { useSnapshot } from "valtio";
 import avatar from "~@/assets/images/avatar.png";
 import { HOME_URL } from "~@/config/constant";
-import { userStore } from "~@/store/user";
+import { updateToken, updateUserinfo, userStore } from "~@/store/user";
 import InfoModal from "./InfoModal";
 import PasswordModal from "./PasswordModal";
 
@@ -27,10 +27,9 @@ const AvatarIcon = () => {
 			okText: "确认",
 			cancelText: "取消",
 			onOk: () => {
-				localStorage.clear();
-				userStore.token = null;
-				userStore.userinfo = null;
-				message.success("退出登录成功！");
+				updateToken(null);
+				updateUserinfo(null);
+				message.success("退出登录！");
 				navigate("/login");
 			},
 		});
@@ -44,18 +43,18 @@ const AvatarIcon = () => {
 					key: "1",
 				},
 				{
-					label: <span onClick={() => infoRef.current.showModal()}>个人信息</span>,
+					label: <a onClick={() => infoRef.current.showModal()}>个人信息</a>,
 					key: "2",
 				},
 				{
-					label: <span onClick={() => passRef.current.showModal()}>修改密码</span>,
+					label: <a onClick={() => passRef.current.showModal()}>修改密码</a>,
 					key: "3",
 				},
 				{
 					type: "divider",
 				},
 				{
-					label: <span onClick={logout}>退出登录</span>,
+					label: <a onClick={logout}>退出登录</a>,
 					key: "4",
 				},
 			]}

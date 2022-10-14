@@ -24,7 +24,8 @@
 		"react-dom": "^18.2.0",
 		"react-router-dom": "^6.4.2",
 		"react-transition-group": "^4.4.5",
-		"valtio": "^1.7.2"
+		"valtio": "^1.7.2",
+		"xe-utils": "^3.5.7"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^17.1.2",

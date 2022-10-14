@@ -5,7 +5,7 @@ import { LockOutlined, SafetyCertificateOutlined, UserOutlined } from "@ant-desi
 import { ILogin } from "~@/api/interface";
 import { LoginHttp } from "~@/api/module";
 import constant from "~@/config/constant";
-import { userStore } from "~@/store/user";
+import { updateToken, updateUserinfo } from "~@/store/user";
 import Code from "../../assets/images/verification-code.png";
 
 const default_position = "left-1/2 -translate-x-1/2";
@@ -25,10 +25,10 @@ function LoginForm({ position = "center" }) {
 		try {
 			const { data } = await LoginHttp(values);
 			if (data) {
-				userStore.token = data.token;
+				updateToken(data.token);
 				localStorage.setItem(constant.storage.token, data.token);
 
-				userStore.userinfo = data;
+				updateUserinfo(data);
 				localStorage.setItem(constant.storage.userinfo, JSON.stringify(data));
 
 				navigate("/", { replace: true });
