@@ -1,18 +1,14 @@
 /** localStorage 存取时用到的 key 的前缀 */
 const storage_prefix = "life_";
 
-// * 首页地址（默认）
+/** 首页地址（默认） */
 export const HOME_URL: string = "/home";
 
-// * Tabs（黑名单地址，不需要添加到 tabs 的路由地址）
-export const TABS_BLACK_LIST: string[] = ["/403", "/404", "/500", "/layout", "/login", "/dataScreen"];
-
-// * 高德地图key
-export const MAP_KEY: string = "";
+/** 不需要登录的路由 */
+export const WHITE_LIST = ["/login", "/forget"];
 
 /** 在 localStorage 存取时用到的 key */
 const storage = {
-	userinfo: storage_prefix + "user",
 	token: storage_prefix + "token",
 	tabs: storage_prefix + "tabs",
 	global: storage_prefix + "global",

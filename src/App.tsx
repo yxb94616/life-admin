@@ -1,6 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
 import { ConfigProvider } from "antd";
 import { useSnapshot } from "valtio";
+import AuthRouter from "./routers/utils/authRouter";
 import Router from "./routers";
 import { systemStore } from "./store/system";
 
@@ -14,11 +15,13 @@ function App() {
 	const { global } = useSnapshot(systemStore);
 
 	return (
-		<ConfigProvider componentSize={global.size}>
-			<BrowserRouter>
-				<Router />
-			</BrowserRouter>
-		</ConfigProvider>
+		<BrowserRouter>
+			<ConfigProvider componentSize={global.size}>
+				<AuthRouter>
+					<Router />
+				</AuthRouter>
+			</ConfigProvider>
+		</BrowserRouter>
 	);
 }
 

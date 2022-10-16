@@ -1,6 +1,7 @@
-import { IMenu } from "~@/api/interface";
+import { IMenu } from "~@/api/interface/user";
 
+// tabs 标签页
 export interface ITabs {
-	title: IMenu.IMenuOptions["title"];
-	path: IMenu.IMenuOptions["path"];
+	title: IMenu["title"];
+	path: IMenu["path"];
 }

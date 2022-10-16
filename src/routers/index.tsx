@@ -1,8 +1,8 @@
 import React from "react";
 import { Navigate, useRoutes } from "react-router-dom";
 import { HOME_URL } from "~@/config/constant";
+import LazyLoad from "./utils/lazyLoad";
 import { IRouteObject } from "./interface";
-import LazyLoad from "./lazyLoad";
 
 // 导入所有 router
 const metaRouters = import.meta.glob("./modules/*.tsx", { eager: true });

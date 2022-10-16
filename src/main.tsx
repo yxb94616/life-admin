@@ -3,12 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./styles/taiwind.css";
 import "antd/dist/antd.variable.min.css";
 import "./styles/common.less";
-import mock from "../mock/index";
 import App from "./App";
-
-if (import.meta.env.DEV) {
-	mock();
-}
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>

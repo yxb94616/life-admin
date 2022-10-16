@@ -1,15 +1,15 @@
-// * 请求响应参数(不包含data)
+// 请求响应参数(不包含data)
 export interface Result {
-	code: string;
-	msg: string;
+	code: number;
+	message: string;
 }
 
-// * 请求响应参数(包含data)
+// 请求响应参数(包含data)
 export interface ResultData<T = any> extends Result {
 	data?: T;
 }
 
-// * 分页响应参数
+// 分页响应参数
 export interface ResPage<T> {
 	data: T[];
 	pageNum: number;
@@ -17,36 +17,16 @@ export interface ResPage<T> {
 	total: number;
 }
 
-// * 分页请求参数
+// 分页请求参数
 export interface ReqPage {
 	pageNum: number;
 	pageSize: number;
 }
 
-// * 登录
-export namespace ILogin {
-	export interface ILoginForm {
-		username: string;
-		password: string;
-		code: string;
-		remember: boolean;
-	}
-	export interface IUserinfo {
-		id: string;
-		username: string;
-		nickname: string;
-		token: string;
-	}
-}
-
-// 菜单
-export namespace IMenu {
-	export interface IMenuOptions {
-		path: string;
-		title: string;
-		icon?: string;
-		isLink?: string;
-		close?: boolean;
-		children?: IMenuOptions[];
-	}
+// 数据库公共字段
+export interface IDBRecord {
+	deleted: number;
+	tenantId: number;
+	createTime: string;
+	updateTime: string;
 }

@@ -26,7 +26,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 			// 代理跨域
 			proxy: {
 				"/api": {
-					target: "https://xxx",
+					target: "http://localhost:8081/api",
 					changeOrigin: true,
 					rewrite: (path) => path.replace(/^\/api/, ""),
 				},

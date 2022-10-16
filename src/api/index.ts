@@ -1,8 +1,9 @@
 import { message } from "antd";
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import constant from "~@/config/constant";
-import { updateToken, updateUserinfo } from "~@/store/user";
+import { resetUserStore } from "~@/store/user";
 import { ResultEnum } from "./helper/httpEnum";
+import ignoreTokenApis from "./ignoreTokenApis";
 import { ResultData } from "./interface";
 
 const config = {
@@ -22,9 +23,13 @@ class RequestHttp {
 
 		// 请求拦截器
 		this.service.interceptors.request.use(
-			(config: AxiosRequestConfig) => {
-				const token = localStorage.getItem(constant.storage.token);
-				return { ...config, headers: { ...config.headers, "x-access-token": token } };
+			(config: AxiosRequestConfig<ResultData>) => {
+				if (config.url && !ignoreTokenApis.includes(config.url)) {
+					const token = localStorage.getItem(constant.storage.token);
+					return { ...config, headers: { ...config.headers, Authorization: token } };
+				} else {
+					return { ...config };
+				}
 			},
 			(error: AxiosError) => {
 				return Promise.reject(error);
@@ -32,20 +37,22 @@ class RequestHttp {
 		);
 
 		// 响应拦截器
-		this.service.interceptors.response.use((response: AxiosResponse) => {
+		this.service.interceptors.response.use((response: AxiosResponse<ResultData>) => {
 			const { data } = response;
 
-			// * 登录失效（code == 599）
-			if (data.code == ResultEnum.OVERDUE) {
-				updateToken(null);
-				updateUserinfo(null);
+			// * 登录失效 code == 401
+			if (data.code === ResultEnum.OVERDUE) {
+				message.destroy();
 				message.error(data.message);
+				localStorage.removeItem(constant.storage.token);
+				resetUserStore();
 				window.location.href = "/login";
 				return Promise.reject(data);
 			}
 
 			// * 全局错误信息拦截（防止下载文件得时候返回数据流，没有code，直接报错）
-			if (data.code && data.code != ResultEnum.SUCCESS) {
+			if (data.code && data.code !== ResultEnum.SUCCESS) {
+				message.destroy();
 				message.error(data.message);
 				return Promise.reject(data);
 			}
@@ -70,4 +77,4 @@ class RequestHttp {
 	}
 }
 
-export default new RequestHttp(config);
+export const http = new RequestHttp(config);

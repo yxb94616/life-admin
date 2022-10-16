@@ -1,6 +1,6 @@
 import React from "react";
 import { IRouteObject } from "~@/routers/interface";
-import LazyLoad from "../lazyLoad";
+import LazyLoad from "../utils/lazyLoad";
 
 // 错误页面模块
 const errorRouter: IRouteObject[] = [

@@ -4,8 +4,8 @@ import { Avatar, Dropdown, Menu, message, Modal } from "antd";
 import { DownOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { useSnapshot } from "valtio";
 import avatar from "~@/assets/images/avatar.png";
-import { HOME_URL } from "~@/config/constant";
-import { updateToken, updateUserinfo, userStore } from "~@/store/user";
+import constant, { HOME_URL } from "~@/config/constant";
+import { resetUserStore, userStore } from "~@/store/user";
 import InfoModal from "./InfoModal";
 import PasswordModal from "./PasswordModal";
 
@@ -27,8 +27,8 @@ const AvatarIcon = () => {
 			okText: "确认",
 			cancelText: "取消",
 			onOk: () => {
-				updateToken(null);
-				updateUserinfo(null);
+				localStorage.removeItem(constant.storage.token);
+				resetUserStore();
 				message.success("退出登录！");
 				navigate("/login");
 			},

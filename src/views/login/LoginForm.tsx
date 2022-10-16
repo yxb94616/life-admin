@@ -1,36 +1,33 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input, Spin } from "antd";
 import { LockOutlined, SafetyCertificateOutlined, UserOutlined } from "@ant-design/icons";
-import { ILogin } from "~@/api/interface";
-import { LoginHttp } from "~@/api/module";
-import constant from "~@/config/constant";
-import { updateToken, updateUserinfo } from "~@/store/user";
-import Code from "../../assets/images/verification-code.png";
+import { useRequest } from "ahooks";
+import { ILoginReq } from "~@/api/interface/user";
+import { getCaptcha, LoginHttp } from "~@/api/module/user";
+import { updateToken } from "~@/store/user";
 
 const default_position = "left-1/2 -translate-x-1/2";
-const initForm: ILogin.ILoginForm = {
+const initForm: ILoginReq = {
+	tenantId: 1,
 	remember: true,
 	username: "admin",
-	password: "LifeAdmin!_09",
-	code: "bjy3b",
+	password: "admin",
+	code: "",
 };
 
 function LoginForm({ position = "center" }) {
 	const navigate = useNavigate();
+
+	const [form] = Form.useForm();
 	const [loading, setLoading] = useState(false);
 
-	const onFinish = async (values: ILogin.ILoginForm) => {
+	const onFinish = async (values: ILoginReq) => {
 		setLoading(true);
 		try {
 			const { data } = await LoginHttp(values);
 			if (data) {
-				updateToken(data.token);
-				localStorage.setItem(constant.storage.token, data.token);
-
-				updateUserinfo(data);
-				localStorage.setItem(constant.storage.userinfo, JSON.stringify(data));
-
+				updateToken(data.access_token);
 				navigate("/", { replace: true });
 			}
 		} finally {
@@ -38,10 +35,17 @@ function LoginForm({ position = "center" }) {
 		}
 	};
 
-	const [form] = Form.useForm();
-	useEffect(() => {
-		form.resetFields();
-	}, [form]);
+	const {
+		data,
+		run,
+		loading: captchaLoading,
+	} = useRequest(getCaptcha, {
+		onSuccess: (result) => {
+			if (result.data) {
+				form.setFieldValue("code", result.data.text);
+			}
+		},
+	});
 
 	return (
 		<Form
@@ -74,8 +78,16 @@ function LoginForm({ position = "center" }) {
 					<Form.Item name="code" rules={[{ required: true, message: "请输入验证码" }]} className="flex-1">
 						<Input prefix={<SafetyCertificateOutlined />} placeholder="请输入验证码" size="large" allowClear />
 					</Form.Item>
-					<Button size="large" className="ml-3 flex items-center justify-center !p-0">
-						<img src={Code} alt="验证码" className="w-full h-full" />
+					<Button
+						size="large"
+						className="ml-3 flex items-center justify-center !p-0"
+						onClick={() => {
+							run();
+						}}
+					>
+						<Spin spinning={captchaLoading}>
+							<img src={data?.data?.base64} alt="验证码" className="w-[103px] h-[38px]" />
+						</Spin>
 					</Button>
 				</div>
 			</Form.Item>
