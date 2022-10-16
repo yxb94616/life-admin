@@ -6,7 +6,7 @@ import { systemStore } from "./store/system";
 
 ConfigProvider.config({
 	theme: {
-		primaryColor: "#3369e7",
+		primaryColor: import.meta.env.VITE_APP_COLOR,
 	},
 });
 

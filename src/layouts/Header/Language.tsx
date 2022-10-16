@@ -19,7 +19,7 @@ const Language = () => {
 
 	return (
 		<Dropdown placement="bottom" trigger={["click"]} arrow overlay={menu}>
-			<TranslationOutlined className="!text-[#626262] mr-5 text-xl cursor-pointer" />
+			<TranslationOutlined className="mr-5 text-xl cursor-pointer" />
 		</Dropdown>
 	);
 };

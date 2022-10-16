@@ -3,7 +3,6 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, MenuProps, Spin } from "antd";
 import * as Icons from "@ant-design/icons";
-import { useSnapshot } from "valtio";
 import { IMenu } from "~@/api/interface";
 import { getMenuListHttp } from "~@/api/module";
 import { addTabs, systemStore } from "~@/store/system";
@@ -43,14 +42,13 @@ const getKeyPath = (path: string) => {
 const LayoutMenu = () => {
 	const { pathname } = useLocation();
 	const [menuActive, setMenuActive] = useState(pathname);
-	const { isCollapse } = useSnapshot(systemStore);
 
 	useEffect(() => {
 		setMenuActive(pathname);
-		if (!isCollapse) {
+		if (!systemStore.global.isCollapse) {
 			setOpenKeys(getKeyPath(pathname));
 		}
-	}, [pathname, isCollapse]);
+	}, [pathname, systemStore.global]);
 
 	const [openKeys, setOpenKeys] = useState<string[]>([]);
 

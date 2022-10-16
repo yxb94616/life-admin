@@ -1,6 +1,6 @@
 import type { SizeType } from "antd/es/config-provider/SizeContext";
 import { proxy } from "valtio";
-import { devtools } from "valtio/utils";
+import { devtools, subscribeKey } from "valtio/utils";
 import constant, { HOME_URL } from "~@/config/constant";
 import { ITabs } from "./interface";
 
@@ -15,6 +15,9 @@ interface IGlobalConfig {
 	isTabs?: boolean;
 	isFooter?: boolean;
 	size?: SizeType;
+	primaryColor?: string;
+	isDark?: boolean;
+	isWeak?: boolean;
 }
 
 const globalInit: IGlobalConfig = {
@@ -23,6 +26,9 @@ const globalInit: IGlobalConfig = {
 	isTabs: true,
 	isFooter: true,
 	size: "middle",
+	primaryColor: import.meta.env.VITE_APP_COLOR,
+	isDark: false,
+	isWeak: false,
 };
 
 export const systemStore = proxy<{
@@ -74,3 +80,23 @@ export const updateGlobalConfig = (config: IGlobalConfig) => {
 	systemStore.global = { ...systemStore.global, ...config };
 	localStorage.setItem(constant.storage.global, JSON.stringify(systemStore.global));
 };
+
+const setTheme = () => {
+	if (systemStore.global.isDark) {
+		document.documentElement.setAttribute("class", "dark");
+	} else {
+		document.documentElement.removeAttribute("class");
+	}
+
+	if (systemStore.global.isWeak) {
+		document.documentElement.setAttribute("style", "filter: invert(80%)");
+	} else {
+		document.documentElement.removeAttribute("style");
+	}
+};
+
+setTheme();
+
+subscribeKey(systemStore, "global", () => {
+	setTheme();
+});

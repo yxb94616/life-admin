@@ -1,4 +1,4 @@
-import { Button, ConfigProvider } from "antd";
+import { Button, ConfigProvider, DatePicker, Divider } from "antd";
 import IconFont from "~@/components/IconFont";
 
 const UseComponent = () => {
@@ -24,6 +24,8 @@ const UseComponent = () => {
 			>
 				change primary color of theme
 			</Button>
+			<Divider />
+			<DatePicker />
 		</h1>
 	);
 };

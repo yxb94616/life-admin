@@ -15,6 +15,8 @@ interface ImportMetaEnv {
 	readonly VITE_DROP_CONSOLE: boolean;
 	/** api 接口地址 */
 	readonly VITE_API_URL: string;
+	/** 主题色 */
+	readonly VITE_APP_COLOR: string;
 }
 
 interface ImportMeta {

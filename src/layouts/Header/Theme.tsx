@@ -1,4 +1,5 @@
 import { useState } from "react";
+// import darkTheme from "~@/styles/theme/dark.css";
 import { Divider, Drawer, Radio, RadioChangeEvent, Switch } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
 import { useSnapshot } from "valtio";
@@ -23,10 +24,23 @@ const Theme = () => {
 	const [visible, setVisible] = useState(false);
 	const { global } = useSnapshot(systemStore);
 
+	const handleDarkThemeChange = () => {
+		updateGlobalConfig({ isDark: !systemStore.global.isDark });
+		if (systemStore.global.isDark) {
+			const head = document.getElementsByTagName("head")[0];
+			const style = document.createElement("style");
+			style.id = "dark-style";
+			style.setAttribute("type", "text/css");
+			// const cssText = document.createTextNode(darkTheme);
+			// style.appendChild(cssText);
+			head.appendChild(style);
+		}
+	};
+
 	return (
 		<>
 			<SettingOutlined
-				className="!text-[#626262] mr-5 text-xl cursor-pointer"
+				className="mr-5 text-xl cursor-pointer"
 				onClick={() => {
 					setVisible(!visible);
 				}}
@@ -39,9 +53,27 @@ const Theme = () => {
 					setVisible(!visible);
 				}}
 			>
-				<Divider plain>主题设置</Divider>
-				<Divider plain>布局设置</Divider>
 				<div className="space-y-5">
+					<Divider plain>主题设置</Divider>
+					<div className="flex items-center justify-between">
+						<span>暗黑模式</span>
+						<Switch
+							checkedChildren={<>🌞</>}
+							unCheckedChildren={<>🌜</>}
+							checked={global.isDark}
+							onChange={handleDarkThemeChange}
+						></Switch>
+					</div>
+					<div className="flex items-center justify-between">
+						<span>色弱模式</span>
+						<Switch
+							checked={global.isWeak}
+							onChange={() => {
+								updateGlobalConfig({ isWeak: !global.isWeak });
+							}}
+						></Switch>
+					</div>
+					<Divider plain>布局设置</Divider>
 					<div className="flex items-center justify-between">
 						<span>折叠菜单</span>
 						<Switch
