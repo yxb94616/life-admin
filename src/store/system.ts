@@ -9,7 +9,7 @@ const home_tab = {
 	path: HOME_URL,
 };
 
-interface IGlobalConfig {
+export interface IGlobalConfig {
 	isCollapse?: boolean;
 	isBreadcrumb?: boolean;
 	isTabs?: boolean;
@@ -82,11 +82,11 @@ export const updateGlobalConfig = (config: IGlobalConfig) => {
 };
 
 const setTheme = () => {
-	if (systemStore.global.isDark) {
-		document.documentElement.setAttribute("class", "dark");
-	} else {
-		document.documentElement.removeAttribute("class");
-	}
+	// if (systemStore.global.isDark) {
+	// 	document.documentElement.setAttribute("class", "dark");
+	// } else {
+	// 	document.documentElement.removeAttribute("class");
+	// }
 
 	if (systemStore.global.isWeak) {
 		document.documentElement.setAttribute("style", "filter: invert(80%)");
