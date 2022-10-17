@@ -58,3 +58,9 @@ export interface ILoginRes {
 	access_token: string;
 	user: IUserinfo;
 }
+
+export interface IUpdatePasswordReq {
+	oldPassword: string;
+	password: string;
+	password2: string;
+}

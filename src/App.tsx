@@ -1,5 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import { ConfigProvider } from "antd";
+import zhCN from "antd/es/locale/zh_CN";
 import { useSnapshot } from "valtio";
 import AuthRouter from "./routers/utils/authRouter";
 import Router from "./routers";
@@ -16,7 +17,7 @@ function App() {
 
 	return (
 		<BrowserRouter>
-			<ConfigProvider componentSize={global.size}>
+			<ConfigProvider locale={zhCN} componentSize={global.size}>
 				<AuthRouter>
 					<Router />
 				</AuthRouter>

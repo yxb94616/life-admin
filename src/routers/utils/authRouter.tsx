@@ -9,7 +9,6 @@ import { updateUserinfo, userStore } from "~@/store/user";
  * */
 const AuthRouter = (props: { children: JSX.Element }) => {
 	const { pathname } = useLocation();
-	console.log(pathname);
 
 	// 在跳转路由之前，清除所有的请求
 

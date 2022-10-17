@@ -50,8 +50,7 @@ export const updateUserinfo = (userinfo: IUserinfo) => {
 	});
 
 	// 有坑，这里数组不能直接赋值，可能是与引用类型嵌套层级太深有关系
-	userStore.menus.length = 0;
-	userStore.menus.splice(0, 0, ...menus);
+	userStore.menus.splice(0, 100, ...menus);
 
 	const authorities: string[] = [];
 	for (let i = 0; i < userinfo.authorities.length; i++) {

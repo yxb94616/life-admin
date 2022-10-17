@@ -2,6 +2,7 @@
 module.exports = {
 	content: ["./index.html", "./src/**/*.{html,ts,tsx}"],
 	darkMode: "class",
+	corePlugins: { preflight: false },
 	theme: {
 		extend: {
 			colors: {
