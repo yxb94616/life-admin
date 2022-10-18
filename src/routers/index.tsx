@@ -35,7 +35,7 @@ const routes: IRouteObject[] = [
 	...routerArray,
 	{
 		path: "*",
-		element: <Navigate to="/404" />,
+		element: LazyLoad(React.lazy(() => import("~@/views/error/404"))),
 	},
 ];
 
