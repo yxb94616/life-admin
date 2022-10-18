@@ -1,8 +1,9 @@
-import { proxy, ref } from "valtio";
-import { devtools } from "valtio/utils";
+import { ref } from "valtio";
+import { devtools, proxyWithComputed } from "valtio/utils";
 import { toArrayTree } from "xe-utils";
 import { IMenu, IUserinfo } from "~@/api/interface/user";
 import constant from "~@/config/constant";
+import { deepLoopFloat } from "~@/utils";
 
 interface IUser {
 	token: string | null;
@@ -12,13 +13,22 @@ interface IUser {
 	roles: string[];
 }
 
-export const userStore = proxy<IUser>({
-	token: localStorage.getItem(constant.storage.token) || null,
-	userinfo: null,
-	menus: ref([]),
-	authorities: [],
-	roles: [],
-});
+interface IUserComputed {
+	sideMenus: any;
+}
+
+export const userStore = proxyWithComputed<IUser, IUserComputed>(
+	{
+		token: localStorage.getItem(constant.storage.token) || null,
+		userinfo: null,
+		menus: ref([]),
+		authorities: [],
+		roles: [],
+	},
+	{
+		sideMenus: (snap) => deepLoopFloat(snap.menus as IMenu[]),
+	},
+);
 
 if (import.meta.env.DEV) {
 	devtools(userStore, { name: "userStore", enabled: true });
