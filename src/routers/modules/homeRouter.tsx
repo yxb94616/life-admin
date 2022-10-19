@@ -24,7 +24,7 @@ const homeRouter: IRouteObject[] = [
 				children: [
 					{
 						path: "/system/user",
-						element: LazyLoad(React.lazy(() => import("~@/views/proTable/useHooks"))),
+						element: LazyLoad(React.lazy(() => import("~@/views/system/role"))),
 						meta: {
 							title: "用户管理",
 							key: "user",
@@ -32,7 +32,7 @@ const homeRouter: IRouteObject[] = [
 					},
 					{
 						path: "/system/role",
-						element: LazyLoad(React.lazy(() => import("~@/views/proTable/useComponent"))),
+						element: LazyLoad(React.lazy(() => import("~@/views/system/user"))),
 						meta: {
 							title: "角色管理",
 							key: "role",

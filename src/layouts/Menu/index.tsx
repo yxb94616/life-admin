@@ -4,7 +4,7 @@ import { Menu, MenuProps } from "antd";
 import { useSnapshot } from "valtio";
 import { addTabs, systemStore } from "~@/store/system";
 import { userStore } from "~@/store/user";
-import { getKeyPath } from "~@/utils";
+import { getKeyPath, IMenuItem } from "~@/utils";
 import Logo from "./Logo";
 
 const LayoutMenu = () => {
@@ -45,7 +45,7 @@ const LayoutMenu = () => {
 		<div className="h-full menu">
 			<Logo />
 			<Menu
-				items={snap.sideMenus}
+				items={snap.sideMenus as IMenuItem[]}
 				selectedKeys={[menuActive]}
 				openKeys={openKeys}
 				onOpenChange={onOpenChange}

@@ -7,7 +7,7 @@ export interface MetaProps {
 }
 
 export type IRouteObject = RouteObject & {
-	children?: IRouteObject;
+	children?: IRouteObject[];
 	meta?: MetaProps;
 	isLink?: string;
 };

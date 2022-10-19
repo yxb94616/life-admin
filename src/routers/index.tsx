@@ -1,24 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, useRoutes } from "react-router-dom";
+import { useSnapshot } from "valtio";
+import { IMenu } from "~@/api/interface/user";
 import { HOME_URL } from "~@/config/constant";
+import { userStore } from "~@/store/user";
 import LazyLoad from "./utils/lazyLoad";
 import { IRouteObject } from "./interface";
 
-// 导入所有 router
-const metaRouters = import.meta.glob("./modules/*.tsx", { eager: true });
+// 按菜单路径导入所有 router
+const lazyRoutes: Record<string, any> = {
+	"/system/user": LazyLoad(React.lazy(() => import("~@/views/system/user"))),
+	"/system/role": LazyLoad(React.lazy(() => import("~@/views/system/role"))),
+	"/dashboard/dataVisualize": LazyLoad(React.lazy(() => import("~@/views/dashboard/dataVisualize"))),
+};
 
-interface IRouter {
-	default: IRouteObject[];
-}
+const homeRoute: IRouteObject = {
+	path: HOME_URL,
+	element: LazyLoad(React.lazy(() => import("~@/views/home"))),
+	meta: {
+		title: "首页",
+		key: "home",
+	},
+};
 
-// 处理路由
-let routerArray: IRouteObject[] = [];
-for (const path in metaRouters) {
-	const router = metaRouters[path];
-	routerArray = routerArray.concat((router as IRouter).default);
-}
-
-const routes: IRouteObject[] = [
+export const routes: IRouteObject[] = [
 	{
 		path: "/",
 		element: <Navigate to={HOME_URL} />,
@@ -27,22 +32,61 @@ const routes: IRouteObject[] = [
 		path: "/login",
 		element: LazyLoad(React.lazy(() => import("~@/views/login"))),
 		meta: {
-			requiresAuth: false,
 			title: "登录页",
 			key: "login",
 		},
 	},
-	...routerArray,
+	{
+		element: LazyLoad(React.lazy(() => import("~@/layouts"))),
+		children: [homeRoute],
+	},
 	{
 		path: "*",
 		element: LazyLoad(React.lazy(() => import("~@/views/error/404"))),
 	},
 ];
 
-const Router = () => {
-	return useRoutes(routes);
+const generateRoutes = (menus: IMenu[], newRoutes: IRouteObject[] = []) => {
+	for (let i = 0; i < menus.length; i++) {
+		const item = menus[i];
+		if (item.hide === 0) {
+			const meta = {
+				title: item.title,
+				key: item.menuId.toString(),
+			};
+			if (item.children && item.children.length > 0) {
+				const child = generateRoutes(item.children);
+				const r: IRouteObject = {
+					meta,
+					children: child,
+				};
+				newRoutes.push(r);
+			} else if (item.component && item.path && Object.hasOwn(lazyRoutes, item.path)) {
+				const r: IRouteObject = {
+					meta,
+					path: item.path,
+					element: lazyRoutes[item.path],
+				};
+				newRoutes.push(r);
+			}
+		}
+	}
+
+	return newRoutes;
 };
 
-export { routes };
+const Router = () => {
+	const [routers, setRouters] = useState(routes);
+	const snap = useSnapshot(userStore);
+
+	useEffect(() => {
+		const genRoutes = generateRoutes(userStore.menus);
+		routes[2].children = [homeRoute, ...genRoutes];
+		const newRoutes = [...routes];
+		setRouters(newRoutes);
+	}, [snap]);
+
+	return useRoutes(routers);
+};
 
 export default Router;

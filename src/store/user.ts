@@ -3,7 +3,7 @@ import { devtools, proxyWithComputed } from "valtio/utils";
 import { toArrayTree } from "xe-utils";
 import { IMenu, IUserinfo } from "~@/api/interface/user";
 import constant from "~@/config/constant";
-import { deepLoopFloat } from "~@/utils";
+import { deepLoopFloat, IMenuItem } from "~@/utils";
 
 interface IUser {
 	token: string | null;
@@ -14,7 +14,7 @@ interface IUser {
 }
 
 interface IUserComputed {
-	sideMenus: any;
+	sideMenus: IMenuItem[];
 }
 
 export const userStore = proxyWithComputed<IUser, IUserComputed>(
