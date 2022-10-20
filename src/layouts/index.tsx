@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Layout } from "antd";
-import { useSnapshot } from "valtio";
-import { systemStore } from "~@/store/system";
+import { useAtom } from "jotai";
+import { globalAtom } from "~@/stores/theme";
 import LayoutFooter from "./Footer";
 import LayoutHeader from "./Header";
 import LayoutMenu from "./Menu";
@@ -10,7 +10,7 @@ import LayoutTabs from "./Tabs";
 const { Sider, Content } = Layout;
 
 const LayoutIndex = () => {
-	const { global } = useSnapshot(systemStore);
+	const [global] = useAtom(globalAtom);
 
 	return (
 		<Layout>

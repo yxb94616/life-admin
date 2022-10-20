@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Tabs } from "antd";
 import { HomeFilled } from "@ant-design/icons";
-import { useSnapshot } from "valtio";
+import { useAtom } from "jotai";
 import { HOME_URL } from "~@/config/constant";
-import { delTabs, systemStore } from "~@/store/system";
+import { tabsAtom } from "~@/stores/theme";
 import MoreButton from "./MoreButton";
 
 const LayoutTabs = () => {
@@ -12,7 +12,7 @@ const LayoutTabs = () => {
 	const navigate = useNavigate();
 
 	const [activeValue, setActiveValue] = useState(pathname);
-	const { tabs } = useSnapshot(systemStore);
+	const [tabs, setTabs] = useAtom(tabsAtom);
 
 	useEffect(() => {
 		setActiveValue(pathname);
@@ -23,9 +23,12 @@ const LayoutTabs = () => {
 	};
 
 	const handleDeleteTabs = (path: string) => {
-		const previous = delTabs(path);
-		if (path == pathname) {
-			if (previous) {
+		const index = tabs.findIndex((item) => item.path == path);
+		if (index) {
+			const newTabs = tabs.filter((item) => item.path != path);
+			setTabs(newTabs);
+			if (path == pathname) {
+				const previous = newTabs[index - 1];
 				navigate(previous.path);
 			}
 		}

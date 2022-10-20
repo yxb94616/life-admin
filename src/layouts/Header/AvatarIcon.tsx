@@ -2,10 +2,11 @@ import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Dropdown, Menu, message, Modal } from "antd";
 import { DownOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
-import { useSnapshot } from "valtio";
+import { useAtom } from "jotai";
+import { RESET } from "jotai/utils";
 import avatar from "~@/assets/images/avatar.png";
 import constant, { HOME_URL } from "~@/config/constant";
-import { resetUserStore, userStore } from "~@/store/user";
+import { userAtom } from "~@/stores/user";
 import InfoModal from "./InfoModal";
 import PasswordModal from "./PasswordModal";
 
@@ -18,6 +19,7 @@ const AvatarIcon = () => {
 
 	const passRef = useRef<ModalProps>(null!);
 	const infoRef = useRef<ModalProps>(null!);
+	const [user, setUser] = useAtom(userAtom);
 
 	const logout = () => {
 		Modal.confirm({
@@ -28,7 +30,7 @@ const AvatarIcon = () => {
 			cancelText: "取消",
 			onOk: () => {
 				localStorage.removeItem(constant.storage.token);
-				resetUserStore();
+				setUser(RESET);
 				message.success("退出登录！");
 				navigate("/login");
 			},
@@ -61,13 +63,11 @@ const AvatarIcon = () => {
 		></Menu>
 	);
 
-	const snap = useSnapshot(userStore);
-
 	return (
 		<>
 			<Dropdown overlay={menu} placement="bottom" arrow trigger={["click"]}>
 				<div className="flex items-center cursor-pointer">
-					<span className="mr-2 text-base text-black/80">{snap.userinfo?.nickname}</span>
+					<span className="mr-2 text-base text-black/80">{user.info?.nickname}</span>
 					<Avatar src={avatar} />
 					<DownOutlined className="ml-2" />
 				</div>

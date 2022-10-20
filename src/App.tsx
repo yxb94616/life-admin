@@ -1,10 +1,11 @@
+import { useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { ConfigProvider } from "antd";
 import zhCN from "antd/es/locale/zh_CN";
-import { useSnapshot } from "valtio";
+import { useAtom } from "jotai";
 import AuthRouter from "./routers/utils/authRouter";
 import Router from "./routers";
-import { systemStore } from "./store/system";
+import { globalAtom } from "./stores/theme";
 
 ConfigProvider.config({
 	theme: {
@@ -13,7 +14,15 @@ ConfigProvider.config({
 });
 
 function App() {
-	const { global } = useSnapshot(systemStore);
+	const [global] = useAtom(globalAtom);
+
+	useEffect(() => {
+		if (global.isWeak) {
+			document.documentElement.setAttribute("style", "filter: invert(80%)");
+		} else {
+			document.documentElement.removeAttribute("style");
+		}
+	}, [global.isWeak]);
 
 	return (
 		<BrowserRouter>

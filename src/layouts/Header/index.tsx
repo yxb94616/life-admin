@@ -1,6 +1,6 @@
 import { Layout } from "antd";
-import { useSnapshot } from "valtio";
-import { systemStore } from "~@/store/system";
+import { useAtom } from "jotai";
+import { globalAtom } from "~@/stores/theme";
 import AvatarIcon from "./AvatarIcon";
 import BreadcrumbNav from "./BreadcrumbNav";
 import CollapseIcon from "./CollapseIcon";
@@ -10,7 +10,7 @@ import Theme from "./Theme";
 const { Header } = Layout;
 
 const LayoutHeader = () => {
-	const { global } = useSnapshot(systemStore);
+	const [global] = useAtom(globalAtom);
 
 	return (
 		<Header

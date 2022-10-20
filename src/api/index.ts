@@ -1,7 +1,6 @@
 import { message } from "antd";
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import constant from "~@/config/constant";
-import { resetUserStore } from "~@/store/user";
 import { ResultEnum } from "./helper/httpEnum";
 import ignoreTokenApis from "./ignoreTokenApis";
 import { ResultData } from "./interface";
@@ -25,7 +24,7 @@ class RequestHttp {
 		this.service.interceptors.request.use(
 			(config: AxiosRequestConfig<ResultData>) => {
 				if (config.url && !ignoreTokenApis.includes(config.url)) {
-					const token = localStorage.getItem(constant.storage.token);
+					const token = JSON.parse(localStorage.getItem(constant.storage.token) ?? "null");
 					return { ...config, headers: { ...config.headers, Authorization: token } };
 				} else {
 					return { ...config };
@@ -45,7 +44,6 @@ class RequestHttp {
 				message.destroy();
 				message.error(data.message);
 				localStorage.removeItem(constant.storage.token);
-				resetUserStore();
 				window.location.href = "/login";
 				return Promise.reject(data);
 			}

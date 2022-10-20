@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Checkbox, Form, Input, Spin } from "antd";
 import { LockOutlined, SafetyCertificateOutlined, UserOutlined } from "@ant-design/icons";
 import { useRequest } from "ahooks";
+import { useAtom } from "jotai";
 import { ILoginReq } from "~@/api/interface/user";
 import { getCaptcha, LoginHttp } from "~@/api/module/user";
-import { updateToken } from "~@/store/user";
+import { handleUserinfo, tokenAtom, userAtom } from "~@/stores/user";
 
 const default_position = "left-1/2 -translate-x-1/2";
 const initForm: ILoginReq = {
@@ -18,6 +19,8 @@ const initForm: ILoginReq = {
 
 function LoginForm({ position = "center" }) {
 	const navigate = useNavigate();
+	const [, setToken] = useAtom(tokenAtom);
+	const [, setUser] = useAtom(userAtom);
 
 	const [form] = Form.useForm();
 	const [loading, setLoading] = useState(false);
@@ -27,7 +30,14 @@ function LoginForm({ position = "center" }) {
 		try {
 			const { data } = await LoginHttp(values);
 			if (data) {
-				updateToken(data.access_token);
+				setToken(data.access_token);
+				const { menus, authorities, roles } = handleUserinfo(data.user);
+				setUser({
+					info: data.user,
+					menus,
+					authorities,
+					roles,
+				});
 				navigate("/", { replace: true });
 			}
 		} finally {

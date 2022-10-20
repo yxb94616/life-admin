@@ -26,7 +26,7 @@
 
 ### store
 
-#### valtio
+#### jotai
 
 #### 持久化
 
