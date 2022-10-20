@@ -1,10 +1,10 @@
 import { matchRoutes, useLocation } from "react-router-dom";
 import { Breadcrumb } from "antd";
-import { routes } from "~@/routers";
+import { initRoutes } from "~@/routers";
 
 const BreadcrumbNav = () => {
 	const location = useLocation();
-	const match = matchRoutes(routes, location);
+	const match = matchRoutes(initRoutes, location);
 
 	return (
 		<Breadcrumb>

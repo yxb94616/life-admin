@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, useRoutes } from "react-router-dom";
-import { useSnapshot } from "valtio";
+import { useAtom } from "jotai";
 import { IMenu } from "~@/api/interface/user";
 import { HOME_URL } from "~@/config/constant";
-import { userStore } from "~@/store/user";
+import { userAtom } from "~@/stores/user";
 import LazyLoad from "./utils/lazyLoad";
 import { IRouteObject } from "./interface";
 
@@ -23,7 +23,7 @@ const homeRoute: IRouteObject = {
 	},
 };
 
-export const routes: IRouteObject[] = [
+export const initRoutes: IRouteObject[] = [
 	{
 		path: "/",
 		element: <Navigate to={HOME_URL} />,
@@ -76,15 +76,14 @@ const generateRoutes = (menus: IMenu[], newRoutes: IRouteObject[] = []) => {
 };
 
 const Router = () => {
-	const [routers, setRouters] = useState(routes);
-	const snap = useSnapshot(userStore);
+	const [routers, setRouters] = useState(initRoutes);
+	const [user] = useAtom(userAtom);
 
 	useEffect(() => {
-		const genRoutes = generateRoutes(userStore.menus);
-		routes[2].children = [homeRoute, ...genRoutes];
-		const newRoutes = [...routes];
-		setRouters(newRoutes);
-	}, [snap]);
+		const genRoutes = generateRoutes(user.menus);
+		initRoutes[2].children = [homeRoute, ...genRoutes];
+		setRouters(initRoutes);
+	}, [user.menus]);
 
 	return useRoutes(routers);
 };

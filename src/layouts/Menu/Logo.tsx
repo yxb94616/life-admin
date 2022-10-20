@@ -1,9 +1,9 @@
-import { useSnapshot } from "valtio";
+import { useAtom } from "jotai";
 import logo from "~@/assets/images/logo.png";
-import { systemStore } from "~@/store/system";
+import { globalAtom } from "~@/stores/theme";
 
 const Logo = () => {
-	const { global } = useSnapshot(systemStore);
+	const [global] = useAtom(globalAtom);
 
 	return (
 		<div className="h-header w-full flex items-center justify-center border-b border-b-[#000f1d]">

@@ -31,7 +31,6 @@ module.exports = {
 		"plugin:@typescript-eslint/recommended",
 		"plugin:react/jsx-runtime",
 		"plugin:react-hooks/recommended",
-		"plugin:valtio/recommended",
 	],
 	/*
 	 * "off" 或 0    ==>  关闭规则

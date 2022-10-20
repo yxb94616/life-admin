@@ -3,6 +3,8 @@ import viteCompression from "vite-plugin-compression";
 import eslintPlugin from "vite-plugin-eslint";
 import { createHtmlPlugin } from "vite-plugin-html";
 import react from "@vitejs/plugin-react";
+import jotaiDebugLabel from "jotai/babel/plugin-debug-label";
+import jotaiReactRefresh from "jotai/babel/plugin-react-refresh";
 import { resolve } from "path";
 import { visualizer } from "rollup-plugin-visualizer";
 
@@ -33,7 +35,9 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 			},
 		},
 		plugins: [
-			react(),
+			react({
+				babel: { plugins: [jotaiDebugLabel, jotaiReactRefresh] },
+			}),
 			createHtmlPlugin({
 				inject: {
 					data: {

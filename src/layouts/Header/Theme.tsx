@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Divider, Drawer, Radio, RadioChangeEvent, Switch } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
-import { useSnapshot } from "valtio";
-import { systemStore, updateGlobalConfig } from "~@/store/system";
+import { useAtom } from "jotai";
+import { globalAtom } from "~@/stores/theme";
 
 const options = [
 	{
@@ -21,7 +21,7 @@ const options = [
 
 const Theme = () => {
 	const [visible, setVisible] = useState(false);
-	const { global } = useSnapshot(systemStore);
+	const [global, setGlobal] = useAtom(globalAtom);
 
 	return (
 		<>
@@ -48,7 +48,7 @@ const Theme = () => {
 							unCheckedChildren={<>🌜</>}
 							checked={global.isDark}
 							onChange={() => {
-								updateGlobalConfig({ isDark: !systemStore.global.isDark });
+								setGlobal({ ...global, isDark: !global.isDark });
 							}}
 						></Switch>
 					</div> */}
@@ -57,7 +57,7 @@ const Theme = () => {
 						<Switch
 							checked={global.isWeak}
 							onChange={() => {
-								updateGlobalConfig({ isWeak: !global.isWeak });
+								setGlobal({ ...global, isWeak: !global.isWeak });
 							}}
 						></Switch>
 					</div>
@@ -67,7 +67,7 @@ const Theme = () => {
 						<Switch
 							checked={global.isCollapse}
 							onChange={() => {
-								updateGlobalConfig({ isCollapse: !global.isCollapse });
+								setGlobal({ ...global, isCollapse: !global.isCollapse });
 							}}
 						></Switch>
 					</div>
@@ -76,7 +76,7 @@ const Theme = () => {
 						<Switch
 							checked={global.isBreadcrumb}
 							onChange={() => {
-								updateGlobalConfig({ isBreadcrumb: !global.isBreadcrumb });
+								setGlobal({ ...global, isBreadcrumb: !global.isBreadcrumb });
 							}}
 						></Switch>
 					</div>
@@ -85,7 +85,7 @@ const Theme = () => {
 						<Switch
 							checked={global.isTabs}
 							onChange={() => {
-								updateGlobalConfig({ isTabs: !global.isTabs });
+								setGlobal({ ...global, isTabs: !global.isTabs });
 							}}
 						></Switch>
 					</div>
@@ -94,7 +94,7 @@ const Theme = () => {
 						<Switch
 							checked={global.isFooter}
 							onChange={() => {
-								updateGlobalConfig({ isFooter: !global.isFooter });
+								setGlobal({ ...global, isFooter: !global.isFooter });
 							}}
 						></Switch>
 					</div>
@@ -106,7 +106,7 @@ const Theme = () => {
 							options={options}
 							value={global.size}
 							onChange={({ target: { value } }: RadioChangeEvent) => {
-								updateGlobalConfig({ size: value });
+								setGlobal({ ...global, size: value });
 							}}
 						/>
 					</div>

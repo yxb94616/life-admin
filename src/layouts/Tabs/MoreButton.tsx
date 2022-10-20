@@ -1,8 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Dropdown, Menu, MenuProps } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+import { useAtom } from "jotai";
 import { HOME_URL } from "~@/config/constant";
-import { closeMultipleTabs } from "~@/store/system";
+import { home_tab, tabsAtom } from "~@/stores/theme";
 
 enum MOREBTN {
 	other = "other",
@@ -12,12 +13,20 @@ enum MOREBTN {
 const MoreButton = () => {
 	const { pathname } = useLocation();
 	const navigate = useNavigate();
+	const [tabs, setTabs] = useAtom(tabsAtom);
 
 	const onClick: MenuProps["onClick"] = ({ key }) => {
 		if (key == MOREBTN.other) {
-			closeMultipleTabs(pathname);
+			if (pathname != HOME_URL) {
+				const tab = tabs.find((item) => item.path == pathname);
+				if (tab) {
+					setTabs([home_tab, tab]);
+				}
+			} else {
+				setTabs([home_tab]);
+			}
 		} else if (key == MOREBTN.all) {
-			closeMultipleTabs();
+			setTabs([home_tab]);
 			navigate(HOME_URL);
 		}
 	};
