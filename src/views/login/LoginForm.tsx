@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Checkbox, Form, Input, Spin } from "antd";
+import { Button, Checkbox, Form, Input, message, Spin } from "antd";
 import { LockOutlined, SafetyCertificateOutlined, UserOutlined } from "@ant-design/icons";
 import { useRequest } from "ahooks";
 import { useAtom } from "jotai";
@@ -28,7 +28,7 @@ function LoginForm({ position = "center" }) {
 	const onFinish = async (values: ILoginReq) => {
 		setLoading(true);
 		try {
-			const { data } = await LoginHttp(values);
+			const { data, msg } = await LoginHttp(values);
 			if (data) {
 				setToken(data.access_token);
 				const { menus, authorities, roles } = handleUserinfo(data.user);
@@ -39,6 +39,8 @@ function LoginForm({ position = "center" }) {
 					roles,
 				});
 				navigate("/", { replace: true });
+			} else {
+				message.error(msg);
 			}
 		} finally {
 			setLoading(false);

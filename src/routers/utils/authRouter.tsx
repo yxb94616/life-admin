@@ -17,7 +17,7 @@ const AuthRouter = (props: { children: JSX.Element }) => {
 	useEffect(() => {
 		if (!WHITE_LIST.includes(pathname) && user.menus.length === 0) {
 			(async function () {
-				const { data, message: msg } = await getUserinfo();
+				const { data, msg } = await getUserinfo();
 				if (data) {
 					const { menus, authorities, roles } = handleUserinfo(data);
 					setUser({

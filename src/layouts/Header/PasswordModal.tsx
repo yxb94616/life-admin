@@ -1,5 +1,6 @@
 import { Ref, useImperativeHandle, useState } from "react";
 import { Form, Input, message, Modal } from "antd";
+import { ResultEnum } from "~@/api/helper/httpEnum";
 import { IUpdatePasswordReq } from "~@/api/interface/user";
 import { updatePassword } from "~@/api/module/user";
 
@@ -25,7 +26,7 @@ const PasswordModal = (props: Props) => {
 		try {
 			const values: IUpdatePasswordReq = await form.validateFields();
 			const { code } = await updatePassword(values);
-			if (code === 200) {
+			if (code === ResultEnum.SUCCESS) {
 				message.success("修改密码成功 🎉🎉🎉");
 				form.resetFields();
 				setIsModalVisible(false);

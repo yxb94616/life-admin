@@ -3,7 +3,6 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } f
 import constant from "~@/config/constant";
 import { ResultEnum } from "./helper/httpEnum";
 import ignoreTokenApis from "./ignoreTokenApis";
-import { ResultData } from "./interface";
 
 const config = {
 	// 默认地址请求地址，可在 .env 开头文件中修改
@@ -22,7 +21,7 @@ class RequestHttp {
 
 		// 请求拦截器
 		this.service.interceptors.request.use(
-			(config: AxiosRequestConfig<ResultData>) => {
+			(config: AxiosRequestConfig) => {
 				if (config.url && !ignoreTokenApis.includes(config.url)) {
 					const token = JSON.parse(localStorage.getItem(constant.storage.token) ?? "null");
 					return { ...config, headers: { ...config.headers, Authorization: token } };
@@ -36,13 +35,13 @@ class RequestHttp {
 		);
 
 		// 响应拦截器
-		this.service.interceptors.response.use((response: AxiosResponse<ResultData>) => {
+		this.service.interceptors.response.use((response: AxiosResponse) => {
 			const { data } = response;
 
 			// * 登录失效 code == 401
 			if (data.code === ResultEnum.OVERDUE) {
 				message.destroy();
-				message.error(data.message);
+				message.error(data.msg);
 				localStorage.removeItem(constant.storage.token);
 				window.location.href = "/login";
 				return Promise.reject(data);
@@ -51,7 +50,7 @@ class RequestHttp {
 			// * 全局错误信息拦截（防止下载文件得时候返回数据流，没有code，直接报错）
 			if (data.code && data.code !== ResultEnum.SUCCESS) {
 				message.destroy();
-				message.error(data.message);
+				message.error(data.msg);
 				return Promise.reject(data);
 			}
 
@@ -61,16 +60,16 @@ class RequestHttp {
 	}
 
 	// * 常用请求方法封装
-	get<T>(url: string, params?: object, _object = {}): Promise<ResultData<T>> {
+	get<T>(url: string, params?: object, _object = {}): Promise<T> {
 		return this.service.get(url, { params, ..._object });
 	}
-	post<T>(url: string, params?: object, _object = {}): Promise<ResultData<T>> {
+	post<T>(url: string, params?: object, _object = {}): Promise<T> {
 		return this.service.post(url, params, _object);
 	}
-	put<T>(url: string, params?: object, _object = {}): Promise<ResultData<T>> {
+	put<T>(url: string, params?: object, _object = {}): Promise<T> {
 		return this.service.put(url, params, _object);
 	}
-	delete<T>(url: string, params?: any, _object = {}): Promise<ResultData<T>> {
+	delete<T>(url: string, params?: any, _object = {}): Promise<T> {
 		return this.service.delete(url, { params, ..._object });
 	}
 }
