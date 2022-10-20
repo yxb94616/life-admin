@@ -6,7 +6,7 @@ import { useAtom } from "jotai";
 import { RESET } from "jotai/utils";
 import avatar from "~@/assets/images/avatar.png";
 import constant, { HOME_URL } from "~@/config/constant";
-import { userAtom } from "~@/stores/user";
+import { tokenAtom, userAtom } from "~@/stores/user";
 import InfoModal from "./InfoModal";
 import PasswordModal from "./PasswordModal";
 
@@ -20,6 +20,7 @@ const AvatarIcon = () => {
 	const passRef = useRef<ModalProps>(null!);
 	const infoRef = useRef<ModalProps>(null!);
 	const [user, setUser] = useAtom(userAtom);
+	const [, setToken] = useAtom(tokenAtom);
 
 	const logout = () => {
 		Modal.confirm({
@@ -29,6 +30,7 @@ const AvatarIcon = () => {
 			okText: "确认",
 			cancelText: "取消",
 			onOk: () => {
+				setToken("");
 				localStorage.removeItem(constant.storage.token);
 				setUser(RESET);
 				message.success("退出登录！");
