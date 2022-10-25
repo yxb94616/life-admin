@@ -1,4 +1,4 @@
-import { IDBRecord } from ".";
+import { IDBRecord, ReqPage } from ".";
 
 export interface ICaptcha {
 	base64: string;
@@ -64,6 +64,14 @@ export interface IUpdatePasswordReq {
 	password: string;
 	password2: string;
 }
+
+export interface IPageUsersSearch {
+	username?: string;
+	nickname?: string;
+	sex?: number;
+}
+
+export type IPageUsersReq = IPageUsersSearch & ReqPage;
 
 export interface IUpdateUserStatusRes {
 	userId: number;
