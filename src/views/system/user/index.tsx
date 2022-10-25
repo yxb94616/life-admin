@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { message, Switch, Table, Tag } from "antd";
+import { Button, message, Popconfirm, Table, Tag } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { ResultEnum } from "~@/api/helper/httpEnum";
 import { IUserinfo } from "~@/api/interface/user";
-import { pageUsers } from "~@/api/module/system/user";
+import { pageUsers, updateUserPassword, updateUserStatus } from "~@/api/module/system/user";
 
 const UseComponent = () => {
 	const columns: ColumnsType<IUserinfo> = [
@@ -18,10 +18,7 @@ const UseComponent = () => {
 		{
 			title: "性别",
 			dataIndex: "sexName",
-		},
-		{
-			title: "手机号",
-			dataIndex: "phone",
+			align: "center",
 		},
 		{
 			title: "角色",
@@ -42,16 +39,72 @@ const UseComponent = () => {
 		{
 			title: "创建时间",
 			dataIndex: "createTime",
+			align: "center",
 		},
 		{
 			title: "状态",
 			dataIndex: "status",
-			render: (_, { status }) => <Switch checked={status === 0} onChange={handleStatusChange} />,
+			render: (_, { status }) => <Tag color={status === 0 ? "success" : "error"}>{status === 0 ? "启用" : "禁用"}</Tag>,
+		},
+		{
+			title: "操作",
+			dataIndex: "action",
+			align: "center",
+			render: (_, { userId, status }) => (
+				<span className="space-x-2">
+					<Popconfirm
+						title={`确定${status === 0 ? "禁用" : "启用"}这个用户吗？`}
+						onConfirm={() => {
+							handleStatusChange(userId, status);
+						}}
+					>
+						<Button size="small" danger={status === 0}>
+							{status === 0 ? "禁用" : "启用"}
+						</Button>
+					</Popconfirm>
+					<Popconfirm
+						title={`是否重置为该用户手机号后8位？`}
+						onConfirm={() => {
+							handlePasswordReset(userId);
+						}}
+					>
+						<Button size="small" type="primary">
+							重置密码
+						</Button>
+					</Popconfirm>
+				</span>
+			),
 		},
 	];
 
-	const handleStatusChange = (checked: boolean) => {
-		console.log(checked);
+	const handlePasswordReset = async (userId: number) => {
+		setLoading(true);
+		try {
+			const { code, msg } = await updateUserPassword({
+				userId,
+			});
+			if (code == ResultEnum.SUCCESS) {
+				message.success(msg);
+			}
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const handleStatusChange = async (userId: number, status: number) => {
+		setLoading(true);
+		try {
+			const { code, msg } = await updateUserStatus({
+				userId,
+				status: status === 0 ? 1 : 0,
+			});
+			if (code == ResultEnum.SUCCESS) {
+				await handlePageUsers();
+				message.success(msg);
+			}
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	const [dataSource, setDataSource] = useState<IUserinfo[]>([]);

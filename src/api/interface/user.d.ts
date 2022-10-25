@@ -64,3 +64,12 @@ export interface IUpdatePasswordReq {
 	password: string;
 	password2: string;
 }
+
+export interface IUpdateUserStatusRes {
+	userId: number;
+	status: number;
+}
+
+export interface IUpdateUserPasswordRes {
+	userId: number;
+}

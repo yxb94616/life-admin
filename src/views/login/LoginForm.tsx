@@ -30,6 +30,7 @@ function LoginForm({ position = "center" }) {
 		try {
 			const { data, msg } = await LoginHttp(values);
 			if (data) {
+				message.success(msg);
 				setToken(data.access_token);
 				const { menus, authorities, roles } = handleUserinfo(data.user);
 				setUser({
